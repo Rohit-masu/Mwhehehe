@@ -1,0 +1,522 @@
+/* =====================================================
+   BOOK STAGE
+   ===================================================== */
+
+.book-stage {
+  position: relative;
+
+  width: 330px;
+  height: 490px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 10;
+
+  /*
+    Slightly right/up so cake has breathing room.
+    Later final scene ke according 10-20px tweak karenge.
+  */
+  transform: translate(35px, -8px);
+
+  transition:
+    width 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+/*
+ react-pageflip opens toward LEFT/RIGHT based on its internal layout.
+ Open state mein container ko enough horizontal breathing room.
+*/
+
+.book-stage--open {
+  width: 640px;
+
+  transform: translate(70px, -8px);
+}
+
+
+.book-stage__tilt {
+  position: relative;
+
+  transform: rotate(-2.2deg);
+  transform-origin: center;
+
+  transition:
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+.book-stage--open .book-stage__tilt {
+  /*
+    Open book almost horizontal rakho.
+    Slight imperfection natural feel ke liye.
+  */
+  transform: rotate(-0.45deg);
+}
+
+.book-stage__shadow {
+  position: absolute;
+
+  left: 50%;
+  bottom: 7px;
+
+  width: 83%;
+  height: 55px;
+
+  transform:
+    translateX(-50%)
+    rotate(-2deg);
+
+  border-radius: 50%;
+
+  background: rgba(0, 0, 0, 0.58);
+
+  filter: blur(25px);
+
+  opacity: 0.72;
+
+  pointer-events: none;
+
+  transition:
+    width 700ms ease,
+    opacity 500ms ease;
+}
+
+
+.book-stage--open .book-stage__shadow {
+  width: 91%;
+  opacity: 0.58;
+}
+
+.diary-flipbook {
+  position: relative;
+
+  z-index: 5;
+
+  filter:
+    drop-shadow(
+      0 13px 12px rgba(0, 0, 0, 0.36)
+    );
+}
+
+/* =====================================================
+   HARD COVER
+   ===================================================== */
+
+.diary-page {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+}
+
+
+.diary-page--hard {
+  border-radius:
+    7px 11px 11px 6px;
+
+  background: #2c1209;
+
+  box-shadow:
+    inset 3px 0 4px rgba(255, 191, 101, 0.06),
+    inset -8px 0 18px rgba(0, 0, 0, 0.32),
+    inset 0 -8px 15px rgba(0, 0, 0, 0.28);
+
+  /*
+    Gives hardcover slightly thicker feeling.
+  */
+  border:
+    2px solid rgba(32, 12, 5, 0.82);
+}
+
+.diary-cover-leather {
+  position: absolute;
+  inset: 0;
+
+  z-index: 0;
+
+  background-size: cover;
+  background-position: center;
+
+  transform: scale(1.025);
+
+  filter:
+    brightness(0.83)
+    saturate(0.88)
+    contrast(1.04);
+}
+
+.diary-cover-light {
+  position: absolute;
+  inset: 0;
+
+  z-index: 1;
+
+  background:
+    radial-gradient(
+      ellipse at 28% 16%,
+      rgba(255, 210, 146, 0.14) 0%,
+      rgba(216, 135, 70, 0.045) 38%,
+      transparent 61%
+    );
+
+  mix-blend-mode: screen;
+
+  pointer-events: none;
+}
+
+
+.diary-cover-vignette {
+  position: absolute;
+  inset: 0;
+
+  z-index: 2;
+
+  box-shadow:
+    inset 13px 0 20px rgba(0, 0, 0, 0.32),
+    inset -15px -10px 29px rgba(0, 0, 0, 0.46),
+    inset 0 0 48px rgba(0, 0, 0, 0.2);
+
+  pointer-events: none;
+}
+
+.diary-cover-frame {
+  position: absolute;
+
+  z-index: 4;
+
+  pointer-events: none;
+
+  border-radius: 2px;
+}
+
+
+.diary-cover-frame--outer {
+  inset: 13px;
+
+  border:
+    1px solid rgba(203, 157, 79, 0.55);
+
+  box-shadow:
+    0 1px 0 rgba(255, 218, 146, 0.09),
+    0 -1px 0 rgba(0, 0, 0, 0.6);
+}
+
+
+.diary-cover-frame--inner {
+  inset: 19px;
+
+  border:
+    1px solid rgba(193, 142, 70, 0.28);
+}
+
+.diary-page__content {
+  position: relative;
+
+  z-index: 10;
+
+  width: 100%;
+  height: 100%;
+}
+
+/* =====================================================
+   COVER CONTENT
+   ===================================================== */
+
+.cover-content {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 36px 26px;
+
+  color: #e7cc93;
+
+  cursor: pointer;
+
+  text-align: center;
+
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+
+.cover-content__eyebrow {
+  margin-bottom: 14px;
+
+  font-family: "EB Garamond", serif;
+
+  font-size: 10px;
+  font-weight: 500;
+
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+
+  color: #c59b59;
+
+  text-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.85);
+}
+
+
+.cover-content__title {
+  margin: 0;
+
+  font-family: "Playfair Display", serif;
+
+  font-size: 31px;
+  font-weight: 600;
+
+  line-height: 1.08;
+
+  color: #e8cf98;
+
+  /*
+    Fake gold emboss:
+    bright upper edge + dark lower indentation.
+  */
+  text-shadow:
+    0 -1px 0 rgba(255, 231, 180, 0.14),
+    0 2px 1px rgba(25, 8, 3, 0.95),
+    0 0 9px rgba(204, 151, 73, 0.12);
+}
+
+
+.cover-content__ornament {
+  margin: 18px 0 8px;
+
+  font-family: serif;
+  font-size: 23px;
+
+  color: rgba(194, 143, 70, 0.72);
+
+  text-shadow:
+    0 2px 2px rgba(0, 0, 0, 0.75);
+}
+
+
+.cover-content__subtitle {
+  margin: 0;
+
+  font-family: "EB Garamond", serif;
+
+  font-size: 13px;
+  font-style: italic;
+
+  color: #c09a5f;
+}
+
+
+.cover-content__hint {
+  position: absolute;
+
+  right: 24px;
+  bottom: 23px;
+
+  font-family: "EB Garamond", serif;
+
+  font-size: 10px;
+  font-style: italic;
+
+  letter-spacing: 0.03em;
+
+  color: rgba(213, 174, 103, 0.59);
+
+  transition:
+    opacity 250ms ease,
+    transform 250ms ease;
+
+  opacity: 0.65;
+}
+
+
+.cover-content:hover .cover-content__hint {
+  opacity: 1;
+
+  transform: translateY(-2px);
+}
+
+.cover-content--back {
+  cursor: default;
+}
+
+
+.cover-content__back-text {
+  font-family: "EB Garamond", serif;
+
+  font-size: 10px;
+
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+
+  color: rgba(202, 160, 91, 0.58);
+}
+
+
+.cover-content__back-symbol {
+  margin-top: 15px;
+
+  font-size: 20px;
+
+  color: rgba(202, 160, 91, 0.44);
+}
+
+/* =====================================================
+   PAPER PAGE
+   ===================================================== */
+
+.diary-page--paper {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(91, 58, 27, 0.13),
+      transparent 8%,
+      transparent 92%,
+      rgba(94, 59, 27, 0.13)
+    ),
+    #ead8a8;
+
+  color: #3c291c;
+
+  box-shadow:
+    inset 0 0 25px rgba(102, 70, 31, 0.14);
+}
+
+
+.diary-paper-noise {
+  position: absolute;
+  inset: 0;
+
+  opacity: 0.14;
+
+  background:
+    repeating-radial-gradient(
+      circle at 25% 30%,
+      rgba(79, 55, 27, 0.2) 0 0.35px,
+      transparent 0.7px 3px
+    );
+
+  pointer-events: none;
+}
+
+
+.diary-paper-lines {
+  position: absolute;
+  inset: 0;
+
+  opacity: 0.26;
+
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 27px,
+      rgba(93, 70, 45, 0.22) 28px,
+      transparent 29px
+    );
+
+  pointer-events: none;
+}
+
+
+.diary-page__content--paper {
+  padding:
+    34px 30px 40px;
+}
+
+
+.diary-page__number {
+  position: absolute;
+
+  left: 50%;
+  bottom: 12px;
+
+  z-index: 12;
+
+  transform: translateX(-50%);
+
+  font-family: "EB Garamond", serif;
+  font-style: italic;
+
+  color: rgba(75, 52, 29, 0.54);
+}
+
+
+.demo-page h2 {
+  margin: 0 0 14px;
+
+  font-family: "Playfair Display", serif;
+  font-size: 23px;
+
+  color: #50341f;
+}
+
+
+.demo-page p {
+  margin: 7px 0;
+
+  font-family: "EB Garamond", serif;
+  font-size: 16px;
+
+  line-height: 1.55;
+
+  color: #403024;
+}
+
+@media (max-width: 767px) {
+
+  .book-stage,
+  .book-stage--open,
+  .book-stage--closed {
+    width: 285px;
+    height: 440px;
+
+    transform: translate(0, 0);
+  }
+
+
+  .book-stage__tilt,
+  .book-stage--open .book-stage__tilt {
+    transform: rotate(-1.2deg);
+  }
+
+
+  .cover-content__title {
+    font-size: 27px;
+  }
+}
+
+.cake-decor {
+  transition:
+    left 650ms cubic-bezier(0.22, 1, 0.36, 1),
+    bottom 650ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 650ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 400ms ease;
+}
+
+.desk-scene.is-diary-open .cake-decor {
+  left: clamp(185px, 14vw, 250px);
+  bottom: clamp(12px, 2vh, 26px);
+
+  transform:
+    rotate(-4deg)
+    scale(0.88);
+
+  opacity: 0.92;
+}

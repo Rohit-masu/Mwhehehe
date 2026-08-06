@@ -1,0 +1,1799 @@
+.desk-scene {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  overflow: hidden;
+  isolation: isolate;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #25140c;
+
+  background-image:
+    linear-gradient(
+      rgba(38, 19, 9, 0.10),
+      rgba(18, 9, 5, 0.20)
+    ),
+    var(--desk-background-image);
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Warm light focused around the diary */
+.desk-scene__spotlight {
+  position: absolute;
+  z-index: 0;
+
+  width: min(1050px, 82vw);
+  height: min(760px, 82vh);
+
+  left: 50%;
+  top: 51%;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 200, 120, 0.16) 0%,
+    rgba(215, 130, 58, 0.07) 44%,
+    transparent 73%
+  );
+
+  filter: blur(10px);
+
+  pointer-events: none;
+}
+
+/* Darkens corners and keeps attention on the diary */
+.desk-scene__vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  background:
+    radial-gradient(
+      ellipse 900px 650px at center,
+      transparent 27%,
+      rgba(10, 5, 2, 0.14) 46%,
+      rgba(8, 4, 2, 0.42) 66%,
+      rgba(4, 2, 1, 0.72) 85%,
+      rgba(1, 0, 0, 0.9) 100%
+    );
+
+  pointer-events: none;
+}
+
+.desk-scene::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  z-index: 1;
+
+  background:
+    /* candle pool */
+    radial-gradient(
+      circle at 11% 72%,
+      rgba(255, 180, 73, 0.19) 0%,
+      rgba(238, 126, 39, 0.09) 13%,
+      rgba(193, 87, 28, 0.035) 27%,
+      transparent 42%
+    ),
+
+    /* fairy light top glow */
+    radial-gradient(
+      ellipse at 55% 0%,
+      rgba(255, 194, 92, 0.14) 0%,
+      rgba(225, 121, 40, 0.045) 29%,
+      transparent 54%
+    );
+
+  mix-blend-mode: screen;
+
+  pointer-events: none;
+}
+
+/* Very subtle texture overlay */
+.desk-scene__grain {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  opacity: 0.045;
+
+  pointer-events: none;
+
+  mix-blend-mode: soft-light;
+
+  background-image:
+    repeating-radial-gradient(
+      circle at 20% 30%,
+      rgba(255, 255, 255, 0.18) 0 0.45px,
+      transparent 0.8px 3px
+    );
+}
+
+/* All future decorations and the diary go here */
+.desk-scene__content {
+  position: relative;
+  z-index: 5;
+
+  width: 100%;
+  min-height: 100dvh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: clamp(18px, 3vw, 48px);
+}
+.desk-scene::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  z-index: 2;
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 70%,
+      rgba(12, 6, 3, 0.08) 88%,
+      rgba(7, 3, 2, 0.16) 100%
+    );
+
+  pointer-events: none;
+}
+@media (max-width: 767px) {
+  .desk-scene {
+    background-position: center;
+  }
+
+  .desk-scene__spotlight {
+    width: 120vw;
+    height: 72vh;
+  }
+
+  .desk-scene__content {
+    padding: 18px 12px;
+  }
+
+  .desk-scene__grain {
+    opacity: 0.05;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .desk-scene *,
+  .desk-scene *::before,
+  .desk-scene *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+.fairy-lights {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+
+  width: min(1240px, 95vw);
+  height: 115px;
+
+  transform: translateX(-50%);
+
+  z-index: 8;
+  pointer-events: auto;
+
+  filter:
+    drop-shadow(0 3px 3px rgba(0, 0, 0, 0.18))
+    drop-shadow(0 0 5px rgba(255, 190, 80, 0.12));
+}
+
+.fairy-lights::after {
+  content: "";
+  position: absolute;
+
+  left: 50%;
+  top: 20px;
+
+  width: 110%;
+  height: 170px;
+
+  transform: translateX(-50%);
+
+  background: radial-gradient(
+    ellipse at top,
+    rgba(255, 197, 103, 0.2) 0%,
+    rgba(255, 178, 75, 0.09) 34%,
+    rgba(255, 162, 55, 0.03) 58%,
+    transparent 78%
+  );
+
+  filter: blur(24px);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition: opacity 0.4s ease;
+}
+
+.fairy-lights:hover::after {
+  opacity: 1;
+}
+
+.fairy-lights__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+@media (max-width: 767px) {
+  .fairy-lights {
+    top: -8px;
+    width: 150vw;
+    height: 90px;
+  }
+}
+
+/* =========================
+   NEWSPAPER NOTE
+   ========================= */
+
+.newspaper-note {
+  position: absolute;
+
+  left: clamp(25px, 4vw, 72px);
+  top: clamp(105px, 14vh, 145px);
+
+  width: clamp(300px, 27vw, 420px);
+
+  z-index: 5;
+  pointer-events: none;
+
+  transform-origin: 30% 10%;
+}
+
+.newspaper-note__image {
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  user-select: none;
+  pointer-events: none;
+
+  filter:
+    drop-shadow(0 15px 17px rgba(0, 0, 0, 0.34))
+    drop-shadow(0 4px 5px rgba(0, 0, 0, 0.2));
+}
+
+
+/* =========================
+   AGED MASKING TAPE
+   ========================= */
+
+.newspaper-tape {
+  position: absolute;
+
+  z-index: 8;
+
+  width: 82px;
+  height: 29px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(194, 166, 115, 0.78),
+      rgba(228, 205, 158, 0.88) 45%,
+      rgba(185, 151, 99, 0.72)
+    );
+
+  opacity: 0.82;
+
+  box-shadow:
+    0 3px 5px rgba(0, 0, 0, 0.24),
+    inset 0 1px 1px rgba(255, 255, 255, 0.25);
+
+  clip-path: polygon(
+    2% 7%,
+    11% 2%,
+    21% 7%,
+    32% 3%,
+    43% 6%,
+    54% 2%,
+    66% 6%,
+    76% 1%,
+    87% 5%,
+    98% 2%,
+    100% 91%,
+    90% 96%,
+    78% 92%,
+    65% 98%,
+    54% 94%,
+    41% 98%,
+    29% 93%,
+    17% 97%,
+    4% 92%
+  );
+
+  transform-origin: center;
+
+  pointer-events: none;
+}
+
+.newspaper-tape::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  opacity: 0.18;
+
+  background:
+    repeating-linear-gradient(
+      105deg,
+      rgba(75, 55, 32, 0.32) 0 1px,
+      transparent 1px 4px
+    );
+}
+
+.newspaper-tape::after {
+  content: "";
+
+  position: absolute;
+  inset: 2px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 244, 210, 0.15),
+    transparent
+  );
+}
+
+
+/* Top-left slanted strip */
+.newspaper-tape--left {
+    left: 26px;
+    top: 30px;
+    transform: translateY(-10px) rotate(-24deg);
+  }
+
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 767px) {
+  .newspaper-note {
+    left: -105px;
+    top: 105px;
+
+    width: 285px;
+
+    opacity: 0.88;
+  }
+
+  .newspaper-tape {
+    width: 62px;
+    height: 22px;
+  }
+
+  .newspaper-tape--left {
+    left: 32px;
+    top: 30px;
+    transform: translateY(-10px) rotate(-27deg);
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 767px) {
+  .newspaper-note {
+    left: -105px;
+    top: 105px;
+
+    width: 285px;
+
+    opacity: 0.88;
+  }
+
+  .newspaper-paperclip {
+    transform:
+      translateY(-16px)
+      rotate(-9deg)
+      scale(0.75);
+  }
+}
+
+/* =========================
+   VINTAGE CASSETTE
+   ========================= */
+
+.vintage-cassette {
+  position: absolute;
+
+  right: clamp(28px, 4vw, 72px);
+  top: clamp(150px, 21vh, 205px);
+
+  width: clamp(230px, 18vw, 285px);
+  aspect-ratio: 1.5 / 1;
+
+  z-index: 6;
+
+  padding: 15px;
+
+  border: 2px solid #4e4035;
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.08),
+      transparent 34%
+    ),
+    linear-gradient(
+      150deg,
+      #9f8c79 0%,
+      #776553 58%,
+      #584b3f 100%
+    );
+
+  box-shadow:
+    0 18px 28px rgba(0, 0, 0, 0.42),
+    0 6px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 2px rgba(255, 255, 255, 0.2),
+    inset 0 -4px 7px rgba(0, 0, 0, 0.2);
+
+  overflow: hidden;
+
+  pointer-events: auto;
+}
+
+.vintage-cassette::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  opacity: 0.08;
+
+  background:
+    repeating-linear-gradient(
+      112deg,
+      rgba(255, 255, 255, 0.35) 0 1px,
+      transparent 1px 5px
+    );
+
+  pointer-events: none;
+}
+
+
+/* SCREWS */
+
+.cassette-screw {
+  position: absolute;
+
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #41372f;
+
+  box-shadow:
+    inset 1px 1px 1px rgba(255, 255, 255, 0.2),
+    0 1px 2px rgba(0, 0, 0, 0.45);
+
+  z-index: 4;
+}
+
+.cassette-screw::after {
+  content: "";
+
+  position: absolute;
+
+  left: 1px;
+  top: 2.5px;
+
+  width: 4px;
+  height: 1px;
+
+  background: #82715e;
+
+  transform: rotate(-28deg);
+}
+
+.cassette-screw--tl {
+  left: 7px;
+  top: 7px;
+}
+
+.cassette-screw--tr {
+  right: 7px;
+  top: 7px;
+}
+
+.cassette-screw--bl {
+  left: 7px;
+  bottom: 7px;
+}
+
+.cassette-screw--br {
+  right: 7px;
+  bottom: 7px;
+}
+
+
+/* LABEL */
+
+.cassette-label {
+  position: relative;
+  z-index: 3;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin: 0 10px 10px;
+  padding: 6px 8px;
+
+  border-radius: 3px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      #dfcda4,
+      #cfb98d
+    );
+
+  color: #392c20;
+
+  box-shadow:
+    inset 0 0 10px rgba(86, 61, 34, 0.18);
+}
+
+.cassette-label__side {
+  font-family: "EB Garamond", serif;
+
+  font-size: 9px;
+  font-weight: 600;
+
+  letter-spacing: 0.18em;
+}
+
+.cassette-label__title {
+  margin: 1px 0;
+
+  font-family: "Playfair Display", serif;
+
+  font-size: 20px;
+  font-style: italic;
+  font-weight: 600;
+}
+
+.cassette-label__subtitle {
+  font-family: "EB Garamond", serif;
+
+  font-size: 9px;
+  font-weight: 600;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  opacity: 0.74;
+}
+
+
+/* REEL WINDOW */
+
+.cassette-window {
+  position: relative;
+  z-index: 3;
+
+  width: 78%;
+  height: 46px;
+
+  margin: 0 auto 10px;
+  padding: 0 9px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-radius: 24px;
+
+  border: 2px solid #79654d;
+
+  background:
+    linear-gradient(
+      180deg,
+      #211b17,
+      #110e0c
+    );
+
+  box-shadow:
+    inset 0 0 12px rgba(0, 0, 0, 0.8),
+    0 1px rgba(255, 255, 255, 0.08);
+}
+
+.cassette-reel {
+  position: relative;
+
+  width: 32px;
+  height: 32px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  border: 4px solid #d0b889;
+
+  background:
+    repeating-conic-gradient(
+      #d2bd91 0deg 10deg,
+      #30271f 10deg 28deg
+    );
+
+  box-shadow:
+    inset 0 0 0 5px #25201b;
+}
+
+.cassette-reel::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 8px;
+
+  border-radius: 50%;
+
+  background: #b99e6e;
+
+  box-shadow:
+    inset 0 0 0 3px #332a22;
+}
+
+.cassette-tape {
+  position: relative;
+
+  width: 66px;
+  height: 24px;
+
+  overflow: hidden;
+}
+
+.cassette-tape__line {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 54px;
+  height: 3px;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 2px;
+
+  background: #8b6242;
+
+  box-shadow:
+    0 -6px 0 rgba(113, 77, 48, 0.32),
+    0 6px 0 rgba(113, 77, 48, 0.22);
+}
+
+
+/* CONTROL PANEL */
+
+/* DECK — button ab cassette body ka hi hissa lagta hai */
+
+.cassette-deck {
+  position: relative;
+  z-index: 10;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  padding: 6px 0 0;
+
+  pointer-events: auto;
+}
+
+/* decorative vents — real deck jaisa detail */
+.cassette-deck__vents {
+  display: flex;
+  gap: 3px;
+}
+
+.cassette-deck__vents span {
+  width: 2px;
+  height: 10px;
+
+  background: #241d18;
+
+  box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.6);
+
+  border-radius: 1px;
+}
+
+.cassette-btn {
+  position: relative;
+
+  width: 34px;
+  height: 22px;
+
+  border: none;
+  border-radius: 3px;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  background: linear-gradient(to bottom, #c9b184, #93795a);
+
+  box-shadow:
+    0 3px 0 #4a3b2c,
+    0 4px 4px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4),
+    inset 0 -2px 3px rgba(48, 36, 22, 0.4);
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: transform 100ms ease, box-shadow 100ms ease;
+}
+
+.cassette-btn:hover {
+  filter: brightness(1.06);
+}
+
+.cassette-btn:active,
+.cassette-btn.is-active {
+  transform: translateY(3px);
+
+  box-shadow:
+    0 0 0 #4a3b2c,
+    inset 0 2px 3px rgba(0, 0, 0, 0.45),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.15);
+}
+
+.cassette-btn.is-active {
+  background: linear-gradient(to bottom, #b39d72, #7d6549);
+}
+
+/* PLAY icon — solid triangle */
+.icon-play {
+  width: 0;
+  height: 0;
+
+  margin-left: 2px;
+
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid #2b2015;
+}
+
+/* PAUSE icon — two bars */
+.icon-pause {
+  display: flex;
+  gap: 3px;
+}
+
+.icon-pause span {
+  width: 3px;
+  height: 10px;
+
+  background: #2b2015;
+
+  border-radius: 0.5px;
+}
+
+.cassette-indicator {
+  font-family: "EB Garamond", serif;
+
+  font-size: 9px;
+  font-weight: 600;
+
+  letter-spacing: 0.07em;
+
+  color: #c9ae7c;
+
+  white-space: nowrap;
+}
+
+
+/* ERROR */
+
+.cassette-error {
+  position: absolute;
+
+  left: 50%;
+  bottom: 3px;
+
+  transform: translateX(-50%);
+
+  z-index: 20;
+
+  font-size: 8px;
+  text-transform: uppercase;
+
+  color: #d8b39a;
+
+  white-space: nowrap;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 767px) {
+  .vintage-cassette {
+    right: -75px;
+    top: 135px;
+
+    width: 190px;
+
+    padding: 11px;
+
+    opacity: 0.9;
+  }
+
+  .cassette-label {
+    margin-bottom: 7px;
+    padding: 4px 6px;
+  }
+
+  .cassette-label__title {
+    font-size: 15px;
+  }
+
+  .cassette-label__side,
+  .cassette-label__subtitle {
+    font-size: 7px;
+  }
+
+  .cassette-window {
+    height: 36px;
+    margin-bottom: 7px;
+  }
+
+  .cassette-reel {
+    width: 25px;
+    height: 25px;
+  }
+
+  .cassette-control-panel {
+    padding: 5px 6px;
+  }
+
+  .cassette-play-button {
+    min-width: 53px;
+    height: 21px;
+
+    padding: 0 6px;
+
+    font-size: 8px;
+  }
+
+  .cassette-indicator {
+    font-size: 7px;
+  }
+}
+
+/* =========================
+   SUNFLOWER CLUSTER
+   ========================= */
+
+.sunflower-cluster {
+  position: absolute;
+
+  right: clamp(-25px, 0.5vw, 10px);
+  bottom: clamp(-78px, -5vh, -38px);
+
+  width: clamp(220px, 19vw, 290px);
+  height: clamp(300px, 32vw, 440px);
+
+  z-index: 4;
+  pointer-events: none;
+
+  transform-origin: 62% 95%;
+}
+
+
+/* BIG FLOWER */
+
+.sunflower-cluster__big {
+  position: absolute;
+
+  right: 0;
+  bottom: 0;
+
+  width: 82%;
+  height: auto;
+
+  opacity: 0.84;
+
+  filter:
+    brightness(0.76)
+    saturate(0.78)
+    sepia(0.08)
+    drop-shadow(0 14px 13px rgba(0, 0, 0, 0.40))
+    drop-shadow(0 4px 5px rgba(0, 0, 0, 0.25));
+
+  user-select: none;
+  pointer-events: none;
+}
+
+
+/* BABY FLOWER */
+
+.sunflower-cluster__baby {
+  position: absolute;
+
+  left: 4.2%;
+  bottom: 11%;
+
+  width: 70%;
+  height: auto;
+
+  transform: rotate(-29deg);
+
+  opacity: 0.76;
+
+  filter:
+    brightness(0.68)
+    saturate(0.62)
+    sepia(0.16)
+    drop-shadow(0 8px 8px rgba(0, 0, 0, 0.38))
+    drop-shadow(0 2px 3px rgba(0, 0, 0, 0.24));
+
+  user-select: none;
+  pointer-events: none;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 767px) {
+  .sunflower-cluster {
+    right: -88px;
+    bottom: -60px;
+
+    width: 215px;
+    height: 310px;
+
+    opacity: 0.78;
+  }
+
+  .sunflower-cluster__baby {
+    left: 2%;
+    bottom: 13%;
+
+    width: 32%;
+  }
+}
+
+/* =========================
+   CANDLE DECOR
+   ========================= */
+
+.candle-decor {
+  position: absolute;
+
+  left: clamp(42px, 6vw, 105px);
+  bottom: clamp(35px, 7vh, 80px);
+
+  width: clamp(115px, 10vw, 155px);
+
+  z-index: 6;
+  pointer-events: auto;   /* pehle "none" tha — ye change karo */
+  cursor: pointer;
+
+  isolation: isolate;
+  transition: filter 0.4s ease;
+}
+
+.candle-decor__image {
+  position: relative;
+  z-index: 3;
+
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  user-select: none;
+  pointer-events: none;
+
+  filter:
+    brightness(0.82)
+    saturate(0.82)
+    sepia(0.08)
+    drop-shadow(0 15px 15px rgba(0, 0, 0, 0.42))
+    drop-shadow(0 4px 5px rgba(0, 0, 0, 0.24));
+}
+
+
+/* Large warm pool of light on desk */
+
+.candle-decor__ambient {
+  position: absolute;
+
+  left: 50%;
+  top: 42%;
+
+  width: 280px;
+  height: 260px;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle,
+    rgba(255, 184, 72, 0.16) 0%,
+    rgba(239, 137, 43, 0.085) 35%,
+    rgba(191, 94, 26, 0.025) 62%,
+    transparent 77%
+  );
+
+  filter: blur(22px);
+
+  z-index: 1;
+
+  mix-blend-mode: screen;
+
+  pointer-events: none;
+}
+
+
+/* Small changing glow around the flame */
+
+.candle-decor__flame-glow {
+  position: absolute;
+
+  /*
+   Candle image ke hisaab se ye 4 values
+   manually tune karni pad sakti hain.
+  */
+  left: 50%;
+  top: 13%;
+
+  width: 84px;
+  height: 105px;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background: radial-gradient(
+    ellipse,
+    rgba(255, 242, 181, 0.45) 0%,
+    rgba(255, 193, 76, 0.27) 30%,
+    rgba(246, 136, 37, 0.08) 58%,
+    transparent 76%
+  );
+
+  filter: blur(16px);
+
+  mix-blend-mode: screen;
+
+  z-index: 2;
+
+  pointer-events: none;
+}
+
+/* HOVER — sirf ambient/flame glow ka intensity + spread badhta hai, candle khud bright nahi hota */
+.candle-decor:hover .candle-decor__flame-glow {
+  background: radial-gradient(
+    ellipse,
+    rgba(255, 242, 181, 0.62) 0%,
+    rgba(255, 193, 76, 0.4) 30%,
+    rgba(246, 136, 37, 0.14) 58%,
+    transparent 78%
+  );
+
+  filter: blur(20px);
+  transform: translate(-50%, -50%) scale(1.5);
+}
+
+.candle-decor:hover .candle-decor__ambient {
+  background: radial-gradient(
+    circle,
+    rgba(255, 184, 72, 0.26) 0%,
+    rgba(239, 137, 43, 0.14) 35%,
+    rgba(191, 94, 26, 0.05) 62%,
+    transparent 80%
+  );
+
+  filter: blur(28px);
+  transform: translate(-50%, -50%) scale(1.3);
+}
+
+.candle-decor::after {
+  content: "";
+
+  position: absolute;
+  z-index: 0;
+
+  left: 50%;
+  bottom: -6px;
+
+  width: 78%;
+  height: 18px;
+
+  transform: translateX(-50%);
+
+  background: radial-gradient(
+    ellipse,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.28) 45%,
+    transparent 78%
+  );
+
+  filter: blur(4px);
+
+  pointer-events: none;
+}
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 767px) {
+  .candle-decor {
+    left: -18px;
+    bottom: 24px;
+
+    width: 105px;
+
+    opacity: 0.88;
+  }
+
+  .candle-decor__ambient {
+    width: 190px;
+    height: 180px;
+  }
+
+  .candle-decor__flame-glow {
+    width: 60px;
+    height: 75px;
+  }
+
+  .candle-decor::after {
+    width: 70%;
+    height: 12px;
+    bottom: -4px;
+  }
+}
+
+
+/* =========================
+   DRIED PETALS
+   ========================= */
+
+.petals-decor {
+  position: absolute;
+
+  /* candle ke around */
+  left: clamp(135px, 7vw, 125px);
+  bottom: clamp(180px, 5vh, 58px);
+
+  width: clamp(270px, 16vw, 270px);
+
+  z-index: 8;
+
+  pointer-events: none;
+  transform-origin: center;
+}
+
+.petals-decor__image {
+  display: block;
+  width: 100%;
+  height: auto;
+
+  user-select: none;
+  pointer-events: none;
+
+  /*
+   * Desk ki warm/dark lighting mein blend.
+   * Asset ko unnaturally bright nahi rehne deta.
+   */
+  opacity: 0.72;
+
+  filter:
+    brightness(0.68)
+    saturate(0.72)
+    sepia(0.16)
+    drop-shadow(3px 8px 5px rgba(0, 0, 0, 0.38))
+    drop-shadow(1px 2px 2px rgba(0, 0, 0, 0.28));
+}
+
+
+/* Candle ke paas subtle warm illumination */
+.petals-decor::after {
+  content: "";
+
+  position: absolute;
+
+  left: 15%;
+  top: 10%;
+
+  width: 65%;
+  height: 65%;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 184, 76, 0.10),
+      rgba(211, 112, 35, 0.035) 45%,
+      transparent 72%
+    );
+
+  filter: blur(18px);
+
+  mix-blend-mode: screen;
+
+  pointer-events: none;
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 767px) {
+  .petals-decor {
+    left: 25px;
+    bottom: 22px;
+
+    width: 155px;
+
+    opacity: 0.72;
+  }
+}
+
+.ambient-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ambient-particle {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform, opacity;
+}
+
+/* faint drifting dust — no glow */
+.ambient-particle--dust {
+  background: rgba(255, 224, 168, 0.55);
+  box-shadow: 0 0 3px rgba(255, 214, 140, 0.4);
+}
+
+/* jugnu (firefly) — glowing */
+.ambient-particle--glow {
+  background: radial-gradient(
+    circle,
+    rgba(255, 236, 180, 1) 0%,
+    rgba(255, 200, 110, 0.75) 35%,
+    rgba(255, 170, 70, 0.25) 65%,
+    transparent 100%
+  );
+
+  box-shadow:
+    0 0 10px 4px rgba(255, 210, 130, 0.55),
+    0 0 26px 10px rgba(255, 180, 90, 0.32),
+    0 0 46px 18px rgba(255, 160, 70, 0.14);
+}
+
+/* =========================
+   CHOCOLATE CAKE
+   ========================= */
+
+.cake-decor {
+  position: absolute;
+
+  /*
+    Temporary placement.
+    Diary open hone ke baad final position tune karenge.
+  */
+  left: clamp(255px, 20vw, 360px);
+  bottom: clamp(18px, 4vh, 48px);
+
+  width: clamp(190px, 16vw, 270px);
+
+  z-index: 6;
+
+  transform-origin: 50% 80%;
+}
+
+
+/* remove normal button styling */
+.cake-decor__button {
+  position: relative;
+
+  display: block;
+
+  width: 100%;
+
+  padding: 0;
+  margin: 0;
+
+  border: 0;
+  outline: none;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+
+/* actual PNG/WebP */
+.cake-decor__image {
+  position: relative;
+
+  display: block;
+
+  width: 100%;
+  height: auto;
+
+  z-index: 2;
+
+  user-select: none;
+  pointer-events: none;
+
+  /*
+    Important:
+    asset ko desk ka part feel karane ke liye
+    thoda dark + warm treatment
+  */
+
+  filter:
+    brightness(0.78)
+    saturate(0.82)
+    sepia(0.08)
+    drop-shadow(0 14px 12px rgba(0, 0, 0, 0.38))
+    drop-shadow(0 4px 5px rgba(0, 0, 0, 0.28));
+
+  transition:
+    filter 0.45s ease,
+    transform 0.45s ease;
+}
+
+
+/* =========================
+   WARM HOVER AURA
+   ========================= */
+
+.cake-decor__aura {
+  position: absolute;
+
+  left: 50%;
+  top: 52%;
+
+  width: 82%;
+  height: 72%;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  z-index: 9;
+
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 190, 95, 0.22) 0%,
+    rgba(224, 132, 52, 0.09) 45%,
+    transparent 72%
+  );
+
+  filter: blur(15px);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+
+.cake-decor__button:hover .cake-decor__aura {
+  opacity: 0.7;
+
+  transform:
+    translate(-50%, -50%)
+    scale(1.08);
+}
+
+
+.cake-decor__button:hover .cake-decor__image {
+  filter:
+    brightness(0.9)
+    saturate(0.92)
+    sepia(0.06)
+    drop-shadow(0 16px 14px rgba(0, 0, 0, 0.4))
+    drop-shadow(0 0 13px rgba(218, 145, 72, 0.12));
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 767px) {
+  .cake-decor {
+    left: -45px;
+    bottom: 100px;
+
+    width: 170px;
+
+    opacity: 0.9;
+  }
+
+  .cake-decor__hint {
+    font-size: 12px;
+  }
+}
+
+@keyframes celebration-lights {
+  0% {
+    filter:
+      drop-shadow(0 3px 3px rgba(0, 0, 0, 0.18))
+      brightness(1);
+  }
+
+  22% {
+    filter:
+      drop-shadow(0 3px 3px rgba(0, 0, 0, 0.18))
+      drop-shadow(0 0 14px rgba(255, 196, 91, 0.55))
+      brightness(1.35);
+  }
+
+  38% {
+    filter:
+      drop-shadow(0 3px 3px rgba(0, 0, 0, 0.18))
+      brightness(0.92);
+  }
+
+  62% {
+    filter:
+      drop-shadow(0 3px 3px rgba(0, 0, 0, 0.18))
+      drop-shadow(0 0 18px rgba(255, 186, 72, 0.65))
+      brightness(1.45);
+  }
+
+  100% {
+    filter:
+      drop-shadow(0 3px 3px rgba(0, 0, 0, 0.18))
+      brightness(1);
+  }
+}
+
+.desk-scene.is-celebrating .fairy-lights {
+  animation: celebration-lights 1.15s ease-in-out 2;
+}
+
+.desk-scene.is-celebrating .fairy-lights::after {
+  opacity: 1;
+
+  transition: opacity 0.3s ease;
+
+  animation: celebration-light-pool 1.3s ease-in-out 2;
+}
+
+@keyframes celebration-light-pool {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+
+  50% {
+    opacity: 0.9;
+  }
+}
+@keyframes candle-celebration {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform:
+      translate(-50%, -50%)
+      scale(1);
+  }
+
+  25% {
+    opacity: 0.9;
+    transform:
+      translate(-50%, -50%)
+      scale(1.12, 1.22);
+  }
+
+  44% {
+    opacity: 0.58;
+    transform:
+      translate(-50%, -50%)
+      scale(0.95, 1.08);
+  }
+
+  70% {
+    opacity: 1;
+    transform:
+      translate(-50%, -50%)
+      scale(1.15, 1.28);
+  }
+}
+
+.desk-scene.is-celebrating .candle-decor__flame-glow {
+  animation: candle-celebration 0.82s ease-in-out 3;
+}
+
+.desk-scene.is-celebrating .candle-decor__ambient {
+  animation: candle-ambient-celebration 1.1s ease-in-out 2;
+}
+
+@keyframes candle-ambient-celebration {
+  0%,
+  100% {
+    opacity: 0.75;
+  }
+
+  50% {
+    opacity: 1;
+    transform:
+      translate(-50%, -50%)
+      scale(1.12);
+  }
+}
+.desk-scene.is-celebrating
+.ambient-particle--dust {
+  box-shadow:
+    0 0 5px rgba(255, 223, 166, 0.75),
+    0 0 10px rgba(255, 181, 72, 0.32);
+
+  filter: brightness(1.45);
+}
+
+.desk-scene.is-celebrating
+.ambient-particle--glow {
+  filter: brightness(1.8);
+
+  box-shadow:
+    0 0 6px rgba(255, 235, 180, 1),
+    0 0 16px rgba(255, 191, 84, 0.9),
+    0 0 30px rgba(255, 145, 39, 0.45);
+}
+
+.desk-scene.is-celebrating
+.ambient-particle--dust {
+  box-shadow:
+    0 0 5px rgba(255, 223, 166, 0.75),
+    0 0 10px rgba(255, 181, 72, 0.32);
+
+  filter: brightness(1.45);
+}
+
+.desk-scene.is-celebrating
+.ambient-particle--glow {
+  filter: brightness(1.8);
+
+  box-shadow:
+    0 0 6px rgba(255, 235, 180, 1),
+    0 0 16px rgba(255, 191, 84, 0.9),
+    0 0 30px rgba(255, 145, 39, 0.45);
+}
+
+.ambient-particle--dust,
+.ambient-particle--glow {
+  transition:
+    filter 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.birthday-message {
+  position: absolute;
+  inset: 0;
+
+  z-index: 30;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  pointer-events: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.birthday-message::before {
+  content: "";
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: min(620px, 72vw);
+  height: min(270px, 36vh);
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background: radial-gradient(
+    ellipse,
+    rgba(70, 36, 12, 0.28) 0%,
+    rgba(25, 12, 6, 0.12) 48%,
+    transparent 75%
+  );
+
+  filter: blur(24px);
+}
+
+.birthday-message__wrap {
+  position: relative;
+  z-index: 2;
+  /*
+   Slightly above center so diary title
+   remains part of composition.
+  */
+  transform: translateY(-20px);
+
+  min-width: 340px;
+
+  text-align: center;
+}
+
+.birthday-message__eyebrow {
+  display: block;
+
+  margin-bottom: 5px;
+
+  font-family: "EB Garamond", serif;
+  font-size: clamp(13px, 1vw, 17px);
+  font-style: italic;
+
+  letter-spacing: 0.18em;
+
+  color: rgba(243, 211, 151, 0.84);
+
+  text-shadow:
+    0 0 8px rgba(255, 185, 74, 0.3);
+}
+
+.birthday-message__text {
+  margin: 0;
+
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-weight: 600;
+
+  font-size: clamp(38px, 5vw, 72px);
+
+  letter-spacing: 0.015em;
+
+  background:
+    linear-gradient(
+      105deg,
+      #bd8432 0%,
+      #f2cf82 23%,
+      #fff0bd 43%,
+      #d69a3b 63%,
+      #ffe4a1 82%,
+      #b87a28 100%
+    );
+
+  background-size: 230% auto;
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  color: transparent;
+
+  filter:
+    drop-shadow(0 2px 3px rgba(0, 0, 0, 0.65))
+    drop-shadow(0 0 12px rgba(255, 178, 65, 0.22));
+
+  animation:
+    birthday-shimmer 2.5s linear infinite;
+
+  white-space: nowrap;
+}
+
+.birthday-message__tiny {
+  display: block;
+
+  margin-top: 8px;
+
+  font-family: "EB Garamond", serif;
+  font-size: 13px;
+
+  letter-spacing: 0.18em;
+
+  color: #dfb969;
+
+  text-shadow:
+    0 0 8px rgba(255, 191, 84, 0.24);
+}
+
+@keyframes birthday-shimmer {
+  from {
+    background-position: 0% center;
+  }
+
+  to {
+    background-position: 230% center;
+  }
+}
+
+.birthday-message__sparkle {
+  position: absolute;
+
+  z-index: -1;
+
+  background:
+    radial-gradient(
+      circle,
+      #fff9dc 0%,
+      #ffe08b 30%,
+      #eaaa43 58%,
+      transparent 75%
+    );
+
+  clip-path: polygon(
+    50% 0%,
+    59% 41%,
+    100% 50%,
+    59% 59%,
+    50% 100%,
+    41% 59%,
+    0% 50%,
+    41% 41%
+  );
+
+  filter:
+    drop-shadow(0 0 5px rgba(255, 214, 120, 0.8))
+    drop-shadow(0 0 11px rgba(255, 164, 59, 0.4));
+}
+
+.desk-scene__visuals {
+  position: absolute;
+  inset: 0;
+
+  transition:
+    filter 0.7s ease,
+    transform 0.7s ease,
+    opacity 0.7s ease;
+}
+
+.desk-scene.is-celebrating .desk-scene__visuals {
+  filter:
+    blur(3px)
+    brightness(0.72)
+    saturate(0.82);
+
+  transform: scale(1.008);
+}
