@@ -1,0 +1,216 @@
+.welcome-page {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: #493522;
+  font-family: "EB Garamond", Georgia, serif;
+}
+
+.welcome-page::before {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  border: 1px solid rgba(110, 72, 37, 0.15);
+  pointer-events: none;
+}
+
+.welcome-page__stamp {
+  position: absolute;
+  top: 2px;
+  right: 0;
+  padding: 3px 5px;
+  border: 1px solid rgba(124, 65, 39, 0.25);
+  transform: rotate(6deg);
+  font-size: 6px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: rgba(112, 55, 35, 0.4);
+}
+
+.welcome-page__header {
+  flex-shrink: 0;
+  margin: 14px 0 24px;
+  text-align: center;
+}
+
+.welcome-page__eyebrow {
+  margin: 0 0 4px;
+  font-size: 8px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(84, 58, 32, 0.58);
+}
+
+.welcome-page__name {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 600;
+  line-height: 1.04;
+  color: #5b3820;
+}
+
+.welcome-page__ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 8px;
+  color: rgba(116, 77, 40, 0.58);
+}
+
+.welcome-page__ornament span {
+  width: 38px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(103, 67, 34, 0.45), transparent);
+}
+
+.welcome-page__ornament b {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.welcome-page__index {
+  flex-shrink: 0;
+  margin: 0 5px;
+}
+
+.welcome-page__index-title {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 7px;
+}
+
+.welcome-page__index-title span {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(100, 67, 34, 0.32));
+}
+
+.welcome-page__index-title span:last-child {
+  background: linear-gradient(to left, transparent, rgba(100, 67, 34, 0.32));
+}
+
+.welcome-page__index-title h2 {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: rgba(77, 50, 27, 0.82);
+}
+
+.welcome-page__chapter-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.welcome-page__chapter {
+  display: grid;
+  grid-template-columns: 22px 1fr 20px;
+  align-items: center;
+  min-height: 34px;
+  border-bottom: 1px dotted rgba(93, 65, 36, 0.22);
+}
+
+.welcome-page__chapter-number,
+.welcome-page__chapter-page {
+  font-size: 9px;
+  color: rgba(99, 66, 35, 0.5);
+}
+
+.welcome-page__chapter-page {
+  text-align: right;
+  font-style: italic;
+}
+
+.welcome-page__chapter-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.welcome-page__chapter-copy strong {
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #48301f;
+}
+
+.welcome-page__chapter-copy em {
+  font-size: 9px;
+  line-height: 1.1;
+  color: rgba(95, 58, 33, 0.58);
+}
+
+.welcome-page__footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: auto;
+  padding: 10px 0 1px;
+}
+
+.welcome-page__footer p {
+  margin: 0;
+  font-size: 9.5px;
+  font-style: italic;
+  color: rgba(70, 47, 29, 0.5);
+}
+
+.welcome-page__tiny-flower {
+  font-size: 11px;
+  color: rgba(112, 70, 31, 0.44);
+}
+
+.welcome-page__scribble {
+  position: absolute;
+  font-size: 8px;
+  font-style: italic;
+  color: rgba(116, 70, 40, 0.28);
+  pointer-events: none;
+}
+
+.welcome-page__scribble--one {
+  left: -3px;
+  bottom: 61px;
+  transform: rotate(-8deg);
+}
+
+.welcome-page__scribble--two {
+  right: 0;
+  bottom: 39px;
+  transform: rotate(5deg);
+}
+
+@media (max-width: 767px) {
+  .welcome-page__header {
+    margin: 11px 0 20px;
+  }
+
+  .welcome-page__name {
+    font-size: 24px;
+  }
+
+  .welcome-page__chapter {
+    min-height: 32px;
+  }
+
+  .welcome-page__chapter-copy strong {
+    font-size: 11px;
+  }
+
+  .welcome-page__scribble {
+    display: none;
+  }
+}

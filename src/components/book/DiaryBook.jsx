@@ -10,15 +10,25 @@ import HTMLFlipBook from "react-pageflip";
 import BookStage from "./BookStage";
 import Page from "./Page";
 import CoverContent from "./CoverContent";
+import InsideCoverPage from "./pages/InsideCoverPage";
+import WelcomePage from "./pages/WelcomePage";
+import MuhavaraDiaryGame from "../games/MuhavaraDiaryGame";
+import BollywoodSongs from "../games/BollywoodSongs";
+import CardMatch from "../games/CardMatch";
+import JigsawPuzzle from "../games/JigsawPuzzle";
 
 import "./DiaryBook.css";
 
 const MOBILE_BREAKPOINT = 768;
 
-export default function DiaryBook() {
+export default function DiaryBook({ onOpenChange }) {
   const bookRef = useRef(null);
 
   const [currentPage, setCurrentPage] = useState(0);
+
+  const [isBookLocked, setIsBookLocked] = useState(false);
+
+  const [, setUnlockedClues] = useState({});
 
   const [isMobile, setIsMobile] = useState(
     typeof window !== "undefined"
@@ -38,34 +48,229 @@ export default function DiaryBook() {
     };
   }, []);
 
-  /*
-    Closed:
-    one 300px page.
-
-    Open desktop:
-    ~600px spread.
-
-    This leaves significantly more room for cake.
-  */
   const bookWidth = isMobile ? 260 : 300;
   const bookHeight = isMobile ? 400 : 450;
-
-  const isOpen = currentPage > 0;
 
   const openBook = () => {
     bookRef.current?.pageFlip()?.flipNext();
   };
 
-  const handleFlip = useCallback((event) => {
-    setCurrentPage(event.data);
+  const saveClue = useCallback((key, clue) => {
+    setUnlockedClues((previousClues) => {
+      if (previousClues[key] === clue) {
+        return previousClues;
+      }
+
+      return {
+        ...previousClues,
+        [key]: clue,
+      };
+    });
   }, []);
 
-  return (
-    <BookStage
-      isOpen={isOpen}
-      isMobile={isMobile}
+  const isPhysicalPageVisible = useCallback(
+    (pageIndex) => {
+      if (isMobile) {
+        return currentPage === pageIndex;
+      }
+
+      return currentPage === pageIndex || currentPage === pageIndex - 1;
+    },
+    [currentPage, isMobile]
+  );
+
+  const handleFlip = useCallback(
+    (event) => {
+      const nextPage = event.data;
+
+      setCurrentPage(nextPage);
+      onOpenChange?.(nextPage > 0);
+    },
+    [onOpenChange]
+  );
+
+  /*
+   * Creates one content spread
+   *
+   * DESKTOP:
+   * [ blank left ][ real content right ]
+   *
+   * MOBILE:
+   * [ real content only ]
+   */
+  const createContentPage = ({
+    key,
+    number,
+    content,
+    includeBlank = true,
+  }) => {
+    const result = [];
+
+    if (!isMobile && includeBlank) {
+      result.push(
+        <Page
+          key={`${key}-blank`}
+          side="left"
+          className="diary-page--blank"
+        />
+      );
+    }
+
+    result.push(
+      <Page
+        key={key}
+        number={number}
+        side="right"
+      >
+        {content}
+      </Page>
+    );
+
+    return result;
+  };
+
+  const gamePageIndexes = isMobile
+    ? {
+        muhavara: 2,
+        bollywood: 3,
+        cardMatch: 4,
+        jigsaw: 5,
+      }
+    : {
+        muhavara: 4,
+        bollywood: 6,
+        cardMatch: 8,
+        jigsaw: 10,
+      };
+
+  const pages = [
+    /* =========================
+       FRONT COVER
+       ========================= */
+    <Page
+      key="front-cover"
+      isHardCover
     >
+      <CoverContent onOpen={openBook} />
+    </Page>,
+
+    /* =========================
+       DESKTOP INSIDE FRONT COVER
+       LEFT SIDE = BROWN
+       ========================= */
+    !isMobile && (
+      <Page
+        key="inside-front-cover"
+        isInsideCover
+      >
+        <InsideCoverPage />
+      </Page>
+    ),
+
+    /* =========================
+       PAGE 1 — WELCOME
+       RIGHT SIDE
+       ========================= */
+    <Page
+      key="welcome"
+      number={1}
+      side="right"
+    >
+      <WelcomePage />
+    </Page>,
+
+    /* =========================
+       FUTURE CONTENT PAGES
+       ========================= */
+    ...createContentPage({
+      key: "muhavara",
+      number: 2,
+      content: (
+        <MuhavaraDiaryGame
+          isActive={isPhysicalPageVisible(gamePageIndexes.muhavara)}
+          onLockChange={setIsBookLocked}
+          onComplete={(clue) => saveClue("muhavara", clue)}
+        />
+      ),
+    }),
+
+    ...createContentPage({
+      key: "bollywood",
+      number: 3,
+      content: (
+        <BollywoodSongs
+          isActive={isPhysicalPageVisible(gamePageIndexes.bollywood)}
+          onLockChange={setIsBookLocked}
+          onComplete={(clue) => saveClue("bollywood", clue)}
+        />
+      ),
+    }),
+
+    ...createContentPage({
+      key: "tmkoc",
+      number: 4,
+      content: (
+        <CardMatch
+          isActive={isPhysicalPageVisible(gamePageIndexes.cardMatch)}
+          onLockChange={setIsBookLocked}
+          onComplete={(clue) => saveClue("cardMatch", clue)}
+        />
+      ),
+    }),
+
+    ...createContentPage({
+      key: "nikki",
+      number: 5,
+      content: (
+        <JigsawPuzzle
+          isActive={isPhysicalPageVisible(gamePageIndexes.jigsaw)}
+          onLockChange={setIsBookLocked}
+          onComplete={(clue) => saveClue("jigsaw", clue)}
+        />
+      ),
+    }),
+
+    /* =========================
+       FINAL WHITE PAPER
+       LEFT SIDE
+       ========================= */
+    !isMobile && (
+      <Page
+        key="final-paper"
+        side="left"
+        className="diary-page--blank"
+      />
+    ),
+
+    /* =========================
+       INSIDE BACK COVER
+       RIGHT SIDE = BROWN
+       ========================= */
+    !isMobile && (
+      <Page
+        key="inside-back-cover"
+        isInsideCover
+      >
+        <InsideCoverPage />
+      </Page>
+    ),
+
+    /* =========================
+       BACK COVER
+       ========================= */
+    <Page
+      key="back-cover"
+      isHardCover
+      isBackCover
+    >
+      <CoverContent isBackCover />
+    </Page>,
+  ].filter(Boolean);
+
+  return (
+    <BookStage>
       <HTMLFlipBook
+        key={isMobile ? "diary-mobile" : "diary-desktop"}
         ref={bookRef}
 
         width={bookWidth}
@@ -81,9 +286,11 @@ export default function DiaryBook() {
         flippingTime={900}
 
         clickEventForward={true}
-        useMouseEvents={true}
-        swipeDistance={25}
-        showPageCorners={true}
+        disableFlipByClick={true}
+        useMouseEvents={!isBookLocked}
+
+        swipeDistance={99999}
+        showPageCorners={!isBookLocked}
 
         mobileScrollSupport={false}
 
@@ -91,43 +298,7 @@ export default function DiaryBook() {
 
         className="diary-flipbook"
       >
-        {/* FRONT COVER */}
-        <Page isHardCover>
-          <CoverContent onOpen={openBook} />
-        </Page>
-
-        {/* PAGE 1 */}
-        <Page number={1}>
-          <div className="demo-page">
-            <h2>Welcome</h2>
-
-            <p>
-              Dear Shraddha, turn the pages gently —
-              this diary holds a little world made
-              just for you.
-            </p>
-          </div>
-        </Page>
-
-        {/* PAGE 2 */}
-        <Page number={2}>
-          <div className="demo-page">
-            <h2>Table of Contents</h2>
-
-            <p>Chapter I — Emoji Muhavare</p>
-            <p>Chapter II — Old Bollywood</p>
-            <p>Chapter III — TMKOC</p>
-            <p>Chapter IV — Best of Luck Nikki</p>
-          </div>
-        </Page>
-
-        {/* BACK COVER */}
-        <Page
-          isHardCover
-          isBackCover
-        >
-          <CoverContent isBackCover />
-        </Page>
+        {pages}
       </HTMLFlipBook>
     </BookStage>
   );

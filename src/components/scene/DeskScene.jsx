@@ -13,7 +13,7 @@ import PetalsDecor from "./PetalsDecor";
 import CakeDecor from "./CakeDecor";
 import BirthdayMessage from "./BirthdayMessage";
 
-function DeskScene({ children }) {
+function DeskScene({ children, isDiaryOpen = false }) {
   const [isCelebrating, setIsCelebrating] = useState(false);
   const timeoutRef = useRef(null);
 
@@ -38,38 +38,40 @@ function DeskScene({ children }) {
   }, []);
 
   return (
-  <main
-    className={`desk-scene ${
-      isCelebrating ? "is-celebrating" : ""
-    }`}
-    style={{
-      "--desk-background-image": `url(${woodDesk})`,
-    }}
-  >
-    {/* Everything that should blur */}
-    <div className="desk-scene__visuals">
-      <div className="desk-scene__spotlight" />
-      <div className="desk-scene__vignette" />
-      <div className="desk-scene__grain" />
+    <main
+      className={[
+        "desk-scene",
+        isCelebrating ? "is-celebrating" : "",
+        isDiaryOpen ? "is-diary-open" : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
+      style={{
+        "--desk-background-image": `url(${woodDesk})`,
+      }}
+    >
+      {/* Everything that should blur */}
+      <div className="desk-scene__visuals">
+        <div className="desk-scene__spotlight" />
+        <div className="desk-scene__vignette" />
+        <div className="desk-scene__grain" />
 
-      <AmbientParticles />
-      <FairyLights />
-      <NewspaperNote />
-      <VintageCassette />
-      <SunflowerCluster />
-      <PetalsDecor />
-      <CandleDecor />
-      <CakeDecor onWish={handleWish} />
+        <AmbientParticles />
+        <FairyLights />
+        <NewspaperNote />
+        <VintageCassette />
+        <SunflowerCluster />
+        <PetalsDecor />
+        <CandleDecor />
+        <CakeDecor onWish={handleWish} />
 
-      <div className="desk-scene__content">
-        {children}
+        <div className="desk-scene__content">{children}</div>
       </div>
-    </div>
 
-    {/* This must remain outside visuals */}
-    <BirthdayMessage show={isCelebrating} />
-  </main>
-);
+      {/* This must remain outside visuals */}
+      <BirthdayMessage show={isCelebrating} />
+    </main>
+  );
 }
 
 export default DeskScene;

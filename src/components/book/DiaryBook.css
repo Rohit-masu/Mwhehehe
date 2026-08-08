@@ -520,3 +520,356 @@
 
   opacity: 0.92;
 }
+
+/* =========================================================
+   PAPER PAGE
+   ========================================================= */
+
+.diary-page--paper {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+
+  color: #3d2e22;
+
+  background: #e9d5a4;
+
+  isolation: isolate;
+}
+
+
+/* =========================================================
+   REAL PAPER TEXTURE
+   ========================================================= */
+
+.diary-paper-texture {
+  position: absolute;
+  inset: 0;
+
+  z-index: 0;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   WARM PAPER LIGHTING
+   prevents the texture from looking like a flat image
+   ========================================================= */
+
+.diary-paper-warmth {
+  position: absolute;
+  inset: 0;
+
+  z-index: 1;
+
+  background:
+    radial-gradient(
+      ellipse at 48% 38%,
+      rgba(255, 246, 205, 0.08) 0%,
+      transparent 60%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(91, 55, 25, 0.025),
+      transparent 14%,
+      transparent 86%,
+      rgba(91, 55, 25, 0.035)
+    );
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   SUBTLE PAPER GRAIN
+   ========================================================= */
+
+.diary-paper-noise {
+  position: absolute;
+  inset: 0;
+
+  z-index: 2;
+
+  opacity: 0.09;
+
+  mix-blend-mode: multiply;
+
+  background-image:
+    repeating-radial-gradient(
+      circle at 25% 30%,
+      rgba(78, 52, 28, 0.18) 0 0.45px,
+      transparent 0.7px 3px
+    );
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   VERY SUBTLE DIARY LINES
+   ========================================================= */
+
+.diary-paper-lines {
+  position: absolute;
+
+  inset: 22px 20px 26px;
+
+  z-index: 3;
+
+  opacity: 0.12;
+
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 27px,
+      rgba(92, 66, 42, 0.28) 28px
+    );
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   CONTENT SAFE AREA
+   ========================================================= */
+
+.diary-page__content--paper {
+  position: relative;
+
+  z-index: 10;
+
+  width: 100%;
+  height: 100%;
+
+  box-sizing: border-box;
+
+  padding:
+    30px
+    28px
+    42px;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   PAGE NUMBER
+   ========================================================= */
+
+.diary-page__number {
+  position: absolute;
+
+  z-index: 15;
+
+  left: 50%;
+  bottom: 14px;
+
+  transform: translateX(-50%);
+
+  font-family: "EB Garamond", serif;
+  font-size: 12px;
+  font-style: italic;
+
+  color: rgba(74, 52, 32, 0.55);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   DESKTOP BOOK GUTTER
+
+   Left page gets darkness on RIGHT edge.
+   Right page gets darkness on LEFT edge.
+   ========================================================= */
+
+@media (min-width: 768px) {
+
+  .diary-page--left::after {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    right: 0;
+
+    width: 34px;
+    height: 100%;
+
+    z-index: 20;
+
+    background:
+      linear-gradient(
+        to left,
+        rgba(58, 38, 21, 0.24) 0%,
+        rgba(72, 48, 27, 0.12) 28%,
+        rgba(90, 60, 35, 0.045) 58%,
+        transparent 100%
+      );
+
+    mix-blend-mode: multiply;
+
+    pointer-events: none;
+  }
+
+
+  .diary-page--right::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 34px;
+    height: 100%;
+
+    z-index: 20;
+
+    background:
+      linear-gradient(
+        to right,
+        rgba(58, 38, 21, 0.24) 0%,
+        rgba(72, 48, 27, 0.12) 28%,
+        rgba(90, 60, 35, 0.045) 58%,
+        transparent 100%
+      );
+
+    mix-blend-mode: multiply;
+
+    pointer-events: none;
+  }
+}
+
+
+/* =========================================================
+   OUTER PAPER EDGE / STACKED PAGE ILLUSION
+   ========================================================= */
+
+@media (min-width: 768px) {
+
+  .diary-page--left {
+    box-shadow:
+      inset 2px 0 2px rgba(255, 246, 211, 0.18),
+      inset -1px 0 1px rgba(65, 42, 22, 0.15);
+  }
+
+  .diary-page--right {
+    box-shadow:
+      inset -2px 0 2px rgba(255, 246, 211, 0.18),
+      inset 1px 0 1px rgba(65, 42, 22, 0.15);
+  }
+}
+
+
+/* =========================================================
+   MOBILE — SINGLE PAGE
+
+   No center gutter because there is no two-page spread.
+   ========================================================= */
+
+@media (max-width: 767px) {
+
+  .diary-page--left::after,
+  .diary-page--right::before {
+    display: none;
+  }
+
+  .diary-page--paper {
+    box-shadow:
+      inset 0 0 18px rgba(76, 48, 23, 0.09),
+      inset 2px 0 2px rgba(70, 45, 24, 0.08);
+  }
+
+  .diary-page__content--paper {
+    padding:
+      24px
+      22px
+      38px;
+  }
+
+  .diary-paper-lines {
+    inset: 18px 16px 24px;
+  }
+
+  .diary-page__number {
+    bottom: 11px;
+  }
+}
+
+/* =====================================================
+   INSIDE FRONT/BACK COVER — plain endpaper, desktop only
+   ===================================================== */
+
+.diary-page--inside-cover {
+  background:
+    radial-gradient(
+      ellipse at 75% 35%,
+      rgba(164, 102, 51, 0.12),
+      transparent 48%
+    ),
+    linear-gradient(
+      115deg,
+      #3a1d0f 0%,
+      #512b18 42%,
+      #402011 72%,
+      #2b140a 100%
+    );
+
+  box-shadow:
+    inset -22px 0 30px rgba(0, 0, 0, 0.28),
+    inset 0 0 35px rgba(0, 0, 0, 0.22);
+}
+
+.inside-cover {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+}
+
+.inside-cover__aging {
+  position: absolute;
+  inset: 0;
+
+  opacity: 0.25;
+
+  background:
+    repeating-radial-gradient(
+      ellipse,
+      rgba(255, 221, 168, 0.09) 0 0.5px,
+      transparent 0.9px 4px
+    );
+
+  mix-blend-mode: overlay;
+
+  pointer-events: none;
+}
+
+/* =====================================================
+   BLANK AGED LEFT PAGE
+   Same paper texture as normal pages, but no lines/number.
+   ===================================================== */
+
+.diary-page--blank .diary-paper-lines {
+  display: none;
+}
+
+.diary-page--blank .diary-page__number {
+  display: none;
+}
+
+/* Agar kahi purana brown/inside-cover-jaisa override hai, use hata do:
+   .diary-page--blank { background: ... brown gradient ... }  ← DELETE this if it exists
+*/

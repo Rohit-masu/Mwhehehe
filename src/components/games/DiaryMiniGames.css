@@ -1,0 +1,678 @@
+.diary-mini-game {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  color: #493522;
+  font-family: "EB Garamond", Georgia, serif;
+}
+
+.diary-mini-game__screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.diary-mini-game__header {
+  flex-shrink: 0;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.diary-mini-game__kicker {
+  display: block;
+  margin-bottom: 1px;
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 9px;
+  font-style: italic;
+  color: rgba(92, 60, 35, 0.5);
+}
+
+.diary-mini-game__header h2 {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.05;
+  color: #533720;
+}
+
+.diary-mini-game__header p {
+  width: 205px;
+  margin: 4px auto 0;
+  font-size: 10px;
+  font-style: italic;
+  line-height: 1.15;
+  color: rgba(77, 54, 36, 0.6);
+}
+
+.diary-mini-game__progress {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 6px;
+  margin-bottom: 7px;
+}
+
+.diary-mini-game__progress span {
+  flex: 1;
+  height: 1px;
+  background: rgba(102, 69, 39, 0.16);
+}
+
+.diary-mini-game__progress small {
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(89, 58, 34, 0.5);
+}
+
+.diary-mini-game__options {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 5px;
+}
+
+.diary-mini-game__option {
+  width: 100%;
+  min-height: 32px;
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 7px;
+  border: 1px solid rgba(104, 70, 41, 0.16);
+  border-radius: 3px;
+  background: rgba(244, 230, 198, 0.18);
+  color: #4e3726;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 150ms ease,
+    background 150ms ease,
+    transform 150ms ease;
+}
+
+.diary-mini-game__option:hover:not(:disabled) {
+  background: rgba(119, 80, 44, 0.055);
+  border-color: rgba(103, 68, 39, 0.3);
+}
+
+.diary-mini-game__option:disabled {
+  cursor: default;
+}
+
+.diary-mini-game__option span {
+  font-size: 8px;
+  font-weight: 700;
+  color: rgba(96, 63, 37, 0.42);
+}
+
+.diary-mini-game__option b {
+  font-size: 10.5px;
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.diary-mini-game__option--correct {
+  background: rgba(91, 125, 69, 0.1);
+  border-color: rgba(79, 115, 60, 0.32);
+}
+
+.diary-mini-game__option--wrong {
+  background: rgba(151, 67, 54, 0.07);
+  border-color: rgba(145, 62, 51, 0.27);
+}
+
+.diary-mini-game__feedback {
+  flex: 1;
+  min-height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 4px;
+}
+
+.diary-mini-game__feedback p {
+  margin: 0;
+  font-size: 9.5px;
+  font-style: italic;
+  line-height: 1.05;
+  text-align: center;
+  color: rgba(84, 56, 35, 0.62);
+}
+
+.diary-mini-game__finished {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.diary-fragment-reveal {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  text-align: center;
+  color: #493522;
+}
+
+.diary-fragment-reveal__kicker {
+  margin-bottom: 6px;
+  font-size: 9px;
+  font-style: italic;
+  color: rgba(92, 60, 35, 0.55);
+}
+
+.diary-fragment-reveal h3 {
+  max-width: 210px;
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.08;
+  color: #533720;
+}
+
+.diary-fragment-reveal p {
+  max-width: 190px;
+  margin: 9px auto 11px;
+  font-size: 11px;
+  font-style: italic;
+  line-height: 1.25;
+  color: rgba(74, 51, 33, 0.64);
+}
+
+.diary-fragment-reveal__clue {
+  display: block;
+  margin: 0 0 10px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1;
+  color: rgba(115, 43, 37, 0.9);
+  transform: rotate(-3deg);
+}
+
+.diary-fragment-reveal__note {
+  font-size: 10px;
+  font-style: italic;
+  color: rgba(92, 60, 35, 0.5);
+}
+
+.diary-mini-game__finished h3 {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.08;
+  color: #533720;
+}
+
+.diary-mini-game__finished p {
+  width: 190px;
+  margin: 8px auto 12px;
+  font-size: 11px;
+  font-style: italic;
+  line-height: 1.25;
+  color: rgba(74, 51, 33, 0.64);
+}
+
+.diary-mini-game__clue {
+  display: block;
+  margin: 1px 0 10px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 30px;
+  line-height: 1;
+  color: rgba(115, 43, 37, 0.9);
+  transform: rotate(-3deg);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.diary-mini-game__continue,
+.diary-mini-game__small-action {
+  border: 0;
+  background: transparent;
+  color: #78492d;
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 12px;
+  font-style: italic;
+  cursor: pointer;
+}
+
+.diary-mini-game__continue:hover,
+.diary-mini-game__small-action:hover {
+  text-decoration: underline;
+}
+
+.diary-mini-game__small-action {
+  align-self: center;
+  margin-top: 8px;
+  padding: 1px 0;
+  font-size: 11px;
+}
+
+.bollywood-cassette {
+  position: relative;
+  flex-shrink: 0;
+  min-height: 72px;
+  display: grid;
+  grid-template-columns: 34px 1fr 34px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding: 10px 11px;
+  border: 1px solid rgba(83, 52, 31, 0.24);
+  border-radius: 5px;
+  background:
+    linear-gradient(145deg, rgba(96, 61, 36, 0.12), rgba(120, 74, 42, 0.04)),
+    rgba(239, 219, 174, 0.22);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 246, 214, 0.24),
+    0 3px 5px rgba(70, 45, 25, 0.06);
+}
+
+.bollywood-player {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-bottom: 8px;
+  padding: 7px 9px;
+  border: 1px solid rgba(83, 52, 31, 0.2);
+  border-radius: 5px;
+  background: rgba(239, 219, 174, 0.22);
+}
+
+.bollywood-player__disc {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 42px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(circle, #d2ad70 0 4px, #2d2119 5px 8px, #17120f 9px 100%);
+  color: #d2ad70;
+  font-size: 15px;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(55, 35, 21, 0.18);
+}
+
+.bollywood-player__disc:disabled {
+  cursor: default;
+  opacity: 0.58;
+}
+
+.bollywood-player__disc > span {
+  display: none;
+}
+
+.bollywood-player__disc::before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  margin: auto;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 10px solid #d2ad70;
+  transform: translateX(2px);
+}
+
+.bollywood-player__disc.is-playing::before {
+  width: 10px;
+  height: 14px;
+  border: 0;
+  border-right: 3px solid #d2ad70;
+  border-left: 3px solid #d2ad70;
+  transform: none;
+}
+
+.bollywood-player__icon {
+  display: block;
+  margin: auto;
+}
+
+.bollywood-player__icon--play {
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 10px solid #d2ad70;
+  transform: translateX(2px);
+}
+
+.bollywood-player__icon--pause {
+  width: 10px;
+  height: 14px;
+  border-right: 3px solid #d2ad70;
+  border-left: 3px solid #d2ad70;
+}
+
+.bollywood-player__disc.is-playing {
+  animation: bollywood-disc-spin 2.8s linear infinite;
+}
+
+.bollywood-player p {
+  min-width: 0;
+  margin: 0;
+  font-size: 10px;
+  font-style: italic;
+  line-height: 1.15;
+  color: rgba(74, 51, 33, 0.62);
+}
+
+.bollywood-player p span {
+  display: block;
+  margin-top: 3px;
+  font-size: 8px;
+  color: rgba(74, 51, 33, 0.46);
+}
+
+.bollywood-player__button {
+  white-space: nowrap;
+  padding: 0;
+  font-size: 11px;
+}
+
+.bollywood-player__button:disabled {
+  cursor: default;
+  opacity: 0.62;
+}
+
+@keyframes bollywood-disc-spin {
+  to { transform: rotate(360deg); }
+}
+
+.bollywood-cassette__reel {
+  width: 31px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 5px solid rgba(73, 48, 31, 0.28);
+  background:
+    radial-gradient(circle, rgba(78, 50, 31, 0.65) 0 3px, transparent 4px),
+    repeating-conic-gradient(
+      rgba(116, 77, 45, 0.55) 0deg 12deg,
+      rgba(235, 213, 170, 0.65) 12deg 28deg
+    );
+}
+
+.bollywood-cassette__label {
+  min-width: 0;
+  padding: 7px 8px;
+  border: 1px solid rgba(116, 74, 40, 0.14);
+  border-radius: 3px;
+  background: rgba(246, 231, 198, 0.42);
+  font-size: 10.5px;
+  font-style: italic;
+  line-height: 1.18;
+  text-align: center;
+  color: rgba(68, 45, 30, 0.78);
+}
+
+.card-match-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.card-match-card {
+  position: relative;
+  aspect-ratio: 0.78;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  perspective: 700px;
+}
+
+.card-match-card__inner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.card-match-card__front,
+.card-match-card__back {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 5px;
+  backface-visibility: hidden;
+}
+
+.card-match-card__front {
+  border: 1px solid rgba(88, 57, 33, 0.28);
+  background:
+    linear-gradient(145deg, rgba(121, 61, 46, 0.88), rgba(78, 45, 29, 0.92));
+  color: rgba(244, 224, 182, 0.88);
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  box-shadow: inset 0 0 0 5px rgba(232, 205, 147, 0.08);
+}
+
+.card-match-card__back {
+  transform: rotateY(180deg);
+  border: 1px solid rgba(101, 68, 39, 0.28);
+  background: rgba(245, 229, 190, 0.5);
+}
+
+.card-match-card__back img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: sepia(0.16) saturate(0.88) contrast(1.03);
+}
+
+.jigsaw-board {
+  width: min(184px, 100%);
+  aspect-ratio: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  align-self: center;
+  flex-shrink: 0;
+  padding: 4px;
+  border: 1px dashed rgba(104, 70, 41, 0.28);
+  border-radius: 5px;
+  background: rgba(244, 230, 198, 0.2);
+}
+
+.jigsaw-stage {
+  position: relative;
+  width: min(230px, 100%);
+  height: 250px;
+  align-self: center;
+  flex-shrink: 0;
+  margin: 0 auto;
+  touch-action: none;
+}
+
+.jigsaw-target {
+  position: absolute;
+  top: 34px;
+  left: 28px;
+  width: 174px;
+  height: 174px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  border: 1px dashed rgba(104, 70, 41, 0.3);
+  background: rgba(244, 230, 198, 0.08);
+}
+
+.jigsaw-target span {
+  border: 1px dashed rgba(104, 70, 41, 0.2);
+}
+
+.jigsaw-piece {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0;
+  border: 1px solid rgba(249, 241, 214, 0.82);
+  border-radius: 3px;
+  background-repeat: no-repeat;
+  cursor: grab;
+  touch-action: none;
+  box-shadow: 0 2px 4px rgba(68, 43, 24, 0.2);
+  transition: box-shadow 150ms ease;
+}
+
+.jigsaw-piece:active {
+  cursor: grabbing;
+}
+
+.jigsaw-piece--snapped {
+  cursor: default;
+  border-color: rgba(249, 241, 214, 0.35);
+  box-shadow: none;
+}
+
+.jigsaw-tile {
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 1px solid rgba(249, 241, 214, 0.65);
+  border-radius: 3px;
+  background-size: 300% 300%;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(68, 43, 24, 0.13);
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    transform 150ms ease;
+}
+
+.jigsaw-tile--selected {
+  border-color: rgba(123, 45, 38, 0.72);
+  box-shadow:
+    0 0 0 2px rgba(123, 45, 38, 0.14),
+    0 3px 5px rgba(68, 43, 24, 0.16);
+  transform: translateY(-1px);
+}
+
+.jigsaw-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.jigsaw-note {
+  max-width: 160px;
+  font-size: 9px;
+  font-style: italic;
+  line-height: 1.15;
+  color: rgba(84, 56, 35, 0.56);
+}
+
+.jigsaw-footer .diary-mini-game__small-action {
+  margin-top: 0;
+}
+
+.jigsaw-preview {
+  width: 34px;
+  aspect-ratio: 1;
+  border: 1px solid rgba(103, 70, 41, 0.25);
+  border-radius: 4px;
+  background-size: cover;
+  background-position: center;
+  filter: sepia(0.12) saturate(0.88);
+}
+
+@media (max-width: 767px) {
+  .diary-mini-game__header h2 {
+    font-size: 18px;
+  }
+
+  .diary-mini-game__header p {
+    width: 184px;
+    font-size: 9px;
+  }
+
+  .diary-mini-game__option {
+    min-height: 30px;
+    padding: 4px 6px;
+  }
+
+  .diary-mini-game__option b {
+    font-size: 9.5px;
+  }
+
+  .bollywood-cassette {
+    grid-template-columns: 29px 1fr 29px;
+    min-height: 65px;
+    gap: 6px;
+    padding: 9px;
+  }
+
+  .bollywood-player {
+    grid-template-columns: 38px 1fr;
+  }
+
+  .bollywood-player__disc {
+    width: 34px;
+  }
+
+
+  .bollywood-cassette__reel {
+    width: 27px;
+    border-width: 4px;
+  }
+
+  .bollywood-cassette__label {
+    padding: 6px;
+    font-size: 9.5px;
+  }
+
+  .card-match-grid {
+    gap: 5px;
+  }
+
+  .jigsaw-board {
+    width: min(170px, 100%);
+  }
+
+  .jigsaw-stage {
+    width: 220px;
+    height: 238px;
+    transform: scale(0.94);
+    transform-origin: top center;
+    margin-bottom: -12px;
+  }
+
+  .diary-mini-game__finished h3 {
+    font-size: 18px;
+  }
+
+  .diary-mini-game__clue {
+    font-size: 26px;
+  }
+}
