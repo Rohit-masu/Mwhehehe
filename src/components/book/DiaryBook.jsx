@@ -21,7 +21,11 @@ import "./DiaryBook.css";
 
 const MOBILE_BREAKPOINT = 768;
 
-export default function DiaryBook({ onOpenChange }) {
+export default function DiaryBook({
+  onOpenChange,
+  onEnvelopeOpen,
+  isEnvelopeFocusOpen = false,
+}) {
   const bookRef = useRef(null);
 
   const [currentPage, setCurrentPage] = useState(0);
@@ -246,14 +250,15 @@ export default function DiaryBook({ onOpenChange }) {
        INSIDE BACK COVER
        RIGHT SIDE = BROWN
        ========================= */
-    !isMobile && (
-      <Page
-        key="inside-back-cover"
-        isInsideCover
-      >
-        <InsideCoverPage />
-      </Page>
-    ),
+    <Page
+      key="inside-back-cover"
+      isInsideCover
+    >
+      <InsideCoverPage
+        showEnvelope={!isEnvelopeFocusOpen}
+        onEnvelopeOpen={onEnvelopeOpen}
+      />
+    </Page>,
 
     /* =========================
        BACK COVER

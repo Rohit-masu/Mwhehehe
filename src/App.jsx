@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { AnimatePresence } from "framer-motion";
 
 import DiaryBook from "./components/book/DiaryBook";
 import DeskScene from "./components/scene/DeskScene";
+import EnvelopeFocus from "./components/scene/EnvelopeFocus";
 
 function App() {
   const [isDiaryOpen, setIsDiaryOpen] = useState(false);
+  const [isEnvelopeFocusOpen, setIsEnvelopeFocusOpen] = useState(false);
 
   return (
     <>
@@ -13,8 +16,18 @@ function App() {
       `}</style>
 
       <DeskScene isDiaryOpen={isDiaryOpen}>
-        <DiaryBook onOpenChange={setIsDiaryOpen} />
+        <DiaryBook
+          onOpenChange={setIsDiaryOpen}
+          onEnvelopeOpen={() => setIsEnvelopeFocusOpen(true)}
+          isEnvelopeFocusOpen={isEnvelopeFocusOpen}
+        />
       </DeskScene>
+
+      <AnimatePresence>
+        {isEnvelopeFocusOpen && (
+          <EnvelopeFocus onClose={() => setIsEnvelopeFocusOpen(false)} />
+        )}
+      </AnimatePresence>
     </>
   );
 }

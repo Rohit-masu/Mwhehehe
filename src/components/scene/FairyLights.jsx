@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 const bulbs = [
@@ -6,13 +7,25 @@ const bulbs = [
   { cx: 400, cy: 46, delay: 1.1, direction: "down" },
   { cx: 560, cy: 46, delay: 0.4, direction: "up" },
   { cx: 720, cy: 79, delay: 1.4, direction: "down" },
-  { cx: 880, cy: 40.5, delay: 0.8, direction: "up" },
-  { cx: 1040, cy: 30.5, delay: 1.7, direction: "down" },
+  { cx: 880, cy: 54, delay: 0.8, direction: "up" },
+  { cx: 1040, cy: 54, delay: 1.7, direction: "down" },
 ];
 
 export default function FairyLights() {
+  const [isTapped, setIsTapped] = useState(false);
+  const timeoutRef = useRef(null);
+
+  const handleTap = () => {
+    setIsTapped(true);
+    window.clearTimeout(timeoutRef.current);
+    timeoutRef.current = window.setTimeout(() => setIsTapped(false), 900);
+  };
+
   return (
-    <div className="fairy-lights">
+    <div
+      className={`fairy-lights ${isTapped ? "is-tapped" : ""}`}
+      onClick={handleTap}
+    >
       <svg
         viewBox="0 0 1100 110"
         preserveAspectRatio="none"

@@ -145,7 +145,12 @@ export default function CardMatch({
   };
 
   return (
-    <section className="diary-mini-game card-match-game">
+    <section
+      className="diary-mini-game card-match-game"
+      onPointerDownCapture={(event) => event.stopPropagation()}
+      onMouseDownCapture={(event) => event.stopPropagation()}
+      onTouchStartCapture={(event) => event.stopPropagation()}
+    >
       <AnimatePresence mode="wait">
         {!finished ? (
           <motion.div
@@ -157,18 +162,17 @@ export default function CardMatch({
             transition={{ duration: 0.2 }}
           >
             <header className="diary-mini-game__header">
-              <span className="diary-mini-game__kicker">gokuldham drawer</span>
-              <h2>Memory Match</h2>
-              <p>Find all pairs before the page gets impatient.</p>
+              <span className="diary-mini-game__kicker">chapter iii · Gokuldham drawer</span>
+              <h2>Gokuldham Memory Drawer</h2>
+              <p>Turn over two familiar faces at a time.</p>
             </header>
 
             <div className="diary-mini-game__progress">
               <span />
               <small>
-                {matchedIds.length}
+                {String(matchedIds.length).padStart(2, "0")}
                 {" / "}
-                {PAIRS.length}
-                {" pairs"}
+                {String(PAIRS.length).padStart(2, "0")}
               </small>
               <span />
             </div>

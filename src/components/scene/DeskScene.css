@@ -232,6 +232,10 @@
   opacity: 1;
 }
 
+.fairy-lights.is-tapped::after {
+  opacity: 1;
+}
+
 .fairy-lights__svg {
   display: block;
   width: 100%;
@@ -479,6 +483,11 @@
     );
 
   pointer-events: none;
+}
+
+/* No layout box by default, so desktop and phone keep their existing sizing. */
+.vintage-cassette__face {
+  display: contents;
 }
 
 
@@ -1114,6 +1123,18 @@
   transform: translate(-50%, -50%) scale(1.5);
 }
 
+.candle-decor.is-tapped .candle-decor__flame-glow {
+  background: radial-gradient(
+    ellipse,
+    rgba(255, 242, 181, 0.62) 0%,
+    rgba(255, 193, 76, 0.4) 30%,
+    rgba(246, 136, 37, 0.14) 58%,
+    transparent 78%
+  );
+  filter: blur(20px);
+  transform: translate(-50%, -50%) scale(1.5);
+}
+
 .candle-decor:hover .candle-decor__ambient {
   background: radial-gradient(
     circle,
@@ -1123,6 +1144,18 @@
     transparent 80%
   );
 
+  filter: blur(28px);
+  transform: translate(-50%, -50%) scale(1.3);
+}
+
+.candle-decor.is-tapped .candle-decor__ambient {
+  background: radial-gradient(
+    circle,
+    rgba(255, 184, 72, 0.26) 0%,
+    rgba(239, 137, 43, 0.14) 35%,
+    rgba(191, 94, 26, 0.05) 62%,
+    transparent 80%
+  );
   filter: blur(28px);
   transform: translate(-50%, -50%) scale(1.3);
 }
@@ -1811,18 +1844,16 @@
     opacity 400ms ease;
 }
 
-.desk-scene.is-diary-open .cake-decor {
-  /*
-    Diary open hone par cake thoda left/down retreat karega.
-    Exact values screenshot dekhkar tune karenge.
-  */
+@media (min-width: 768px) {
+  .desk-scene.is-diary-open .cake-decor {
+    /* Desktop diary open state keeps the cake out of the book spread. */
+    transform:
+      translate(-38px, 15px)
+      rotate(-4deg)
+      scale(0.88);
 
-  transform:
-    translate(-38px, 15px)
-    rotate(-4deg)
-    scale(0.88);
-
-  opacity: 0.92;
+    opacity: 0.92;
+  }
 }
 
 /* =========================================================
@@ -1835,7 +1866,12 @@
   .desk-scene__content {
     position: relative;
     z-index: 12;
+    pointer-events: none;
     padding: 10px 8px 18px;
+  }
+
+  .desk-scene__content .book-stage {
+    pointer-events: auto;
   }
 
   .newspaper-note {
@@ -2014,5 +2050,172 @@
     left: 5px;
     bottom: 114px;
     width: 117px;
+  }
+}
+
+/* =========================================================
+   TABLET COMPOSITION
+   Keep this range isolated so desktop and phone stay unchanged.
+   ========================================================= */
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .newspaper-note {
+    left: clamp(25px, 0vw, 72px);
+    top: clamp(93px, 9vh, 145px);
+    width: clamp(250px, 27vw, 420px);
+  }
+
+  .newspaper-tape {
+    width: 60px;
+    height: 22px;
+  }
+
+  .newspaper-tape--left {
+    left: 6px;
+    top: 26px;
+    transform: translateY(-10px) rotate(-24deg);
+  }
+
+  .candle-decor {
+    left: clamp(35px, 0vw, 105px);
+    bottom: clamp(23px, 0vh, 80px);
+    width: clamp(123px, 10vw, 155px);
+  }
+
+  .petals-decor {
+    left: clamp(105px, 4vw, 125px);
+    bottom: clamp(53px, 5vh, 58px);
+    width: clamp(194px, 16vw, 270px);
+  }
+
+  .cake-decor,
+  .desk-scene.is-diary-open .cake-decor {
+    left: clamp(334px, 20vw, 360px);
+    bottom: clamp(18px, 4vh, 48px);
+    width: clamp(213px, 16vw, 270px);
+    opacity: 1;
+  }
+
+  /* The motion component owns transform inline. Lock it in both diary states. */
+  .desk-scene.is-diary-open .cake-decor {
+    transform: translateY(0) rotate(-2deg) !important;
+  }
+
+  .vintage-cassette {
+    right: clamp(30px, 0vw, 72px);
+    top: clamp(76px, 0vh, 205px);
+    width: 172px;
+    aspect-ratio: 1.6 / 1;
+    padding: 15px;
+  }
+
+  /* Scale the full face so overflow never crops the controls or reels. */
+  .vintage-cassette__face {
+    position: absolute;
+    left: 15px;
+    top: 9px;
+    display: block;
+    width: 184px;
+    transform: scale(0.75);
+    transform-origin: top left;
+  }
+
+  .vintage-cassette__face .cassette-label {
+    margin: 0 7px 5px;
+    padding: 3px 5px;
+  }
+
+  .vintage-cassette__face .cassette-label__title {
+    font-size: 15px;
+  }
+
+  .vintage-cassette__face .cassette-label__side,
+  .vintage-cassette__face .cassette-label__subtitle {
+    font-size: 7px;
+  }
+
+  .vintage-cassette__face .cassette-window {
+    width: 76%;
+    height: 34px;
+    margin-bottom: 5px;
+    padding: 0 6px;
+  }
+
+  .vintage-cassette__face .cassette-reel {
+    width: 25px;
+    height: 25px;
+    border-width: 3px;
+  }
+
+  .vintage-cassette__face .cassette-reel::after {
+    inset: 6px;
+    box-shadow: inset 0 0 0 2px #332a22;
+  }
+
+  .vintage-cassette__face .cassette-tape {
+    width: 48px;
+    height: 18px;
+  }
+
+  .vintage-cassette__face .cassette-tape__line {
+    width: 42px;
+  }
+
+  .vintage-cassette__face .cassette-deck {
+    gap: 9px;
+    padding-top: 3px;
+  }
+}
+
+/* =========================================================
+   4K COMPOSITION
+   Large-canvas placement only; regular desktop stays unchanged.
+   ========================================================= */
+
+@media (min-width: 2560px) {
+  .cake-decor,
+  .desk-scene.is-diary-open .cake-decor {
+    left: auto;
+    right: 461px;
+    bottom: 115px;
+    width: clamp(223px, 20vw, 331px);
+    opacity: 1;
+  }
+
+  /* Keep the cake anchored when the diary changes state. */
+  .desk-scene.is-diary-open .cake-decor {
+    transform: translateY(0) rotate(-2deg) !important;
+  }
+
+  .candle-decor {
+    left: clamp(88px, 19vw, 432px);
+    bottom: clamp(28px, 9vh, 80px);
+    width: clamp(115px, 10vw, 166px);
+  }
+
+  .petals-decor {
+    left: 135px;
+    bottom: 180px;
+    width: clamp(270px, 16vw, 322px);
+  }
+
+  .newspaper-note__image {
+    opacity: 0.86;
+    filter:
+      brightness(0.76)
+      saturate(0.8)
+      sepia(0.1)
+      drop-shadow(0 15px 17px rgba(0, 0, 0, 0.38))
+      drop-shadow(0 4px 5px rgba(0, 0, 0, 0.24));
+  }
+
+  .petals-decor__image {
+    opacity: 0.68;
+    filter:
+      brightness(0.6)
+      saturate(0.68)
+      sepia(0.18)
+      drop-shadow(3px 8px 5px rgba(0, 0, 0, 0.42))
+      drop-shadow(1px 2px 2px rgba(0, 0, 0, 0.3));
   }
 }

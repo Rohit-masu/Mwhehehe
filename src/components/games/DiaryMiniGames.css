@@ -266,29 +266,16 @@
   font-size: 11px;
 }
 
-.bollywood-cassette {
-  position: relative;
-  flex-shrink: 0;
-  min-height: 72px;
-  display: grid;
-  grid-template-columns: 34px 1fr 34px;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-  padding: 10px 11px;
-  border: 1px solid rgba(83, 52, 31, 0.24);
-  border-radius: 5px;
-  background:
-    linear-gradient(145deg, rgba(96, 61, 36, 0.12), rgba(120, 74, 42, 0.04)),
-    rgba(239, 219, 174, 0.22);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 246, 214, 0.24),
-    0 3px 5px rgba(70, 45, 25, 0.06);
-}
+
 
 .bollywood-player {
-  display: grid;
-  grid-template-columns: 48px 1fr;
+   display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  margin: 6px 0 8px;
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
@@ -302,12 +289,13 @@
 .bollywood-player__disc {
   appearance: none;
   -webkit-appearance: none;
-  width: 42px;
-  aspect-ratio: 1;
+  position: relative;
+  width: 52px;
+  height: 52px;
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: radial-gradient(circle, #d2ad70 0 4px, #2d2119 5px 8px, #17120f 9px 100%);
+  background: transparent;
   color: #d2ad70;
   font-size: 15px;
   padding: 0;
@@ -325,51 +313,55 @@
   display: none;
 }
 
+.bollywood-player__disc > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform-origin: center center;
+  animation: bollywood-disc-spin 2.8s linear infinite;
+  animation-play-state: paused;
+  filter: drop-shadow(0 3px 4px rgba(58, 34, 18, 0.22));
+  pointer-events: none;
+}
+
 .bollywood-player__disc::before {
   content: "";
-  display: block;
   width: 0;
   height: 0;
-  margin: auto;
-  border-top: 7px solid transparent;
-  border-bottom: 7px solid transparent;
-  border-left: 10px solid #d2ad70;
-  transform: translateX(2px);
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  margin: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 6px solid #d2ad70;
+  transform: translate(-40%, -50%);
+  pointer-events: none;
 }
 
 .bollywood-player__disc.is-playing::before {
-  width: 10px;
-  height: 14px;
+  width: 6px;
+  height: 8px;
   border: 0;
-  border-right: 3px solid #d2ad70;
-  border-left: 3px solid #d2ad70;
-  transform: none;
+  border-right: 2px solid #d2ad70;
+  border-left: 2px solid #d2ad70;
+  transform: translate(-50%, -50%);
 }
 
-.bollywood-player__icon {
-  display: block;
-  margin: auto;
-}
 
-.bollywood-player__icon--play {
-  width: 0;
-  height: 0;
-  border-top: 7px solid transparent;
-  border-bottom: 7px solid transparent;
-  border-left: 10px solid #d2ad70;
-  transform: translateX(2px);
-}
-
-.bollywood-player__icon--pause {
-  width: 10px;
-  height: 14px;
-  border-right: 3px solid #d2ad70;
-  border-left: 3px solid #d2ad70;
-}
 
 .bollywood-player__disc.is-playing {
-  animation: bollywood-disc-spin 2.8s linear infinite;
+  box-shadow: 0 2px 4px rgba(55, 35, 21, 0.13);
 }
+
+.bollywood-player__disc.is-playing > img {
+  animation-play-state: running;
+  will-change: transform;
+  filter: drop-shadow(0 4px 6px rgba(58, 34, 18, 0.28)) drop-shadow(0 0 4px rgba(166, 121, 66, 0.14));
+}
+
 
 .bollywood-player p {
   min-width: 0;
@@ -387,46 +379,26 @@
   color: rgba(74, 51, 33, 0.46);
 }
 
-.bollywood-player__button {
-  white-space: nowrap;
-  padding: 0;
-  font-size: 11px;
-}
-
-.bollywood-player__button:disabled {
-  cursor: default;
-  opacity: 0.62;
-}
 
 @keyframes bollywood-disc-spin {
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.bollywood-cassette__reel {
-  width: 31px;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  border: 5px solid rgba(73, 48, 31, 0.28);
-  background:
-    radial-gradient(circle, rgba(78, 50, 31, 0.65) 0 3px, transparent 4px),
-    repeating-conic-gradient(
-      rgba(116, 77, 45, 0.55) 0deg 12deg,
-      rgba(235, 213, 170, 0.65) 12deg 28deg
-    );
+/* Keep the intentional music-control motion visible if the scene's broad
+   reduced-motion rule is active; the rest of the desk still respects it. */
+@media (prefers-reduced-motion: reduce) {
+  .desk-scene .bollywood-player__disc > img {
+    animation-duration: 2.8s !important;
+    animation-iteration-count: infinite !important;
+  }
 }
 
-.bollywood-cassette__label {
-  min-width: 0;
-  padding: 7px 8px;
-  border: 1px solid rgba(116, 74, 40, 0.14);
-  border-radius: 3px;
-  background: rgba(246, 231, 198, 0.42);
-  font-size: 10.5px;
-  font-style: italic;
-  line-height: 1.18;
-  text-align: center;
-  color: rgba(68, 45, 30, 0.78);
-}
 
 .card-match-grid {
   display: grid;
@@ -674,5 +646,142 @@
 
   .diary-mini-game__clue {
     font-size: 26px;
+  }
+}
+
+/* =====================================================
+   SHARED DIARY GAME GRAMMAR
+   ===================================================== */
+
+.diary-mini-game__header {
+  margin-bottom: 7px;
+}
+
+.diary-mini-game__kicker,
+.diary-fragment-reveal__kicker {
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(87, 55, 33, 0.5);
+}
+
+.diary-mini-game__header h2 {
+  font-size: 19px;
+  color: #4c321f;
+}
+
+.diary-mini-game__header p {
+  color: rgba(72, 49, 31, 0.61);
+}
+
+.diary-mini-game__progress {
+  margin-bottom: 8px;
+}
+
+.diary-mini-game__progress small {
+  min-width: 36px;
+  font-size: 7px;
+  letter-spacing: 0.12em;
+  text-align: center;
+}
+
+.diary-mini-game__prompt {
+  position: relative;
+  flex-shrink: 0;
+  height: 67px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+  border-top: 1px solid rgba(104, 70, 41, 0.16);
+  border-bottom: 1px solid rgba(104, 70, 41, 0.16);
+  background: rgba(244, 230, 198, 0.1);
+}
+
+.muhavara-emoji {
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-align: center;
+  filter: saturate(0.85) sepia(0.08);
+}
+
+.diary-mini-game__option--correct {
+  background: rgba(102, 113, 68, 0.11);
+  border-color: rgba(91, 99, 59, 0.34);
+}
+
+.diary-mini-game__option--wrong {
+  background: rgba(143, 76, 61, 0.08);
+  border-color: rgba(130, 67, 53, 0.28);
+}
+
+.diary-mini-game__feedback p,
+.diary-mini-game__feedback--note {
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 10px;
+  font-style: italic;
+  color: rgba(84, 56, 35, 0.62);
+}
+
+.diary-mini-game__feedback--note {
+  flex: 1;
+  min-height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2px 0 0;
+  text-align: center;
+}
+
+.diary-fragment-reveal__clue {
+  color: rgba(102, 77, 46, 0.92);
+}
+
+/* Chapter II is intentionally only the record: no singer metadata or player card. */
+.bollywood-game .diary-mini-game__kicker {
+  font-size: 0;
+}
+
+.bollywood-game .diary-mini-game__kicker::after {
+  content: "chapter ii";
+  font-size: 8px;
+}
+
+.bollywood-player {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  margin-bottom: 8px;
+  padding: 5px;
+  border-color: rgba(83, 52, 31, 0.16);
+  background: transparent;
+}
+
+.bollywood-player__disc {
+  width: 52px;
+  height: 52px;
+  box-shadow: 0 2px 4px rgba(55, 35, 21, 0.14);
+}
+
+@media (max-width: 767px) {
+  .bollywood-player {
+    min-height: 46px;
+  }
+
+  .bollywood-player__disc {
+    width: 46px;
+    height: 46px;
+  }
+
+  .diary-mini-game__prompt {
+    height: 61px;
+  }
+
+  .muhavara-emoji {
+    font-size: 28px;
   }
 }

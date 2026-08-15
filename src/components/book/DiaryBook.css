@@ -510,15 +510,17 @@
     opacity 400ms ease;
 }
 
-.desk-scene.is-diary-open .cake-decor {
-  left: clamp(185px, 14vw, 250px);
-  bottom: clamp(12px, 2vh, 26px);
+@media (min-width: 768px) {
+  .desk-scene.is-diary-open .cake-decor {
+    left: clamp(185px, 14vw, 250px);
+    bottom: clamp(12px, 2vh, 26px);
 
-  transform:
-    rotate(-4deg)
-    scale(0.88);
+    transform:
+      rotate(-4deg)
+      scale(0.88);
 
-  opacity: 0.92;
+    opacity: 0.92;
+  }
 }
 
 /* =========================================================

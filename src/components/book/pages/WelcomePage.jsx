@@ -4,25 +4,25 @@ const memoryChapters = [
   {
     number: "I",
     page: "02",
-    title: "Kuch baatein ishaaron mein",
+    title: "Ishaaron Mein Yaadein",
     note: "old sayings, familiar clues",
   },
   {
     number: "II",
     page: "03",
-    title: "Bollywood rewind",
+    title: "Rewind to the 90s",
     note: "songs that somehow stayed",
   },
   {
     number: "III",
     page: "04",
-    title: "Gokuldham memories",
+    title: "Gokuldham Memory Drawer",
     note: "faces you probably still know",
   },
   {
     number: "IV",
     page: "05",
-    title: "Put it back together",
+    title: "Pieces of a Memory",
     note: "one picture, a few pieces",
   },
 ];

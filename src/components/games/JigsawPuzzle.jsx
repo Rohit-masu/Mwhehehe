@@ -105,8 +105,15 @@ export default function JigsawPuzzle({
     });
   };
 
+  const snappedCount = pieces.filter((piece) => piece.snapped).length;
+
   return (
-    <section className="diary-mini-game jigsaw-game">
+    <section
+      className="diary-mini-game jigsaw-game"
+      onPointerDown={(event) => event.stopPropagation()}
+      onMouseDown={(event) => event.stopPropagation()}
+      onTouchStart={(event) => event.stopPropagation()}
+    >
       <AnimatePresence mode="wait">
         {!finished ? (
           <motion.div
@@ -118,14 +125,14 @@ export default function JigsawPuzzle({
             transition={{ duration: 0.2 }}
           >
             <header className="diary-mini-game__header">
-              <span className="diary-mini-game__kicker">a picture from before</span>
-              <h2>Put It Back</h2>
+              <span className="diary-mini-game__kicker">chapter iv · picture puzzle</span>
+              <h2>Pieces of a Memory</h2>
               <p>Hold a piece and find where this memory belongs.</p>
             </header>
 
             <div className="diary-mini-game__progress">
               <span />
-              <small>one piece at a time</small>
+              <small>{String(snappedCount).padStart(2, "0")} / 09</small>
               <span />
             </div>
 
@@ -164,13 +171,17 @@ export default function JigsawPuzzle({
                 );
               })}
             </div>
+
+            <p className="diary-mini-game__feedback diary-mini-game__feedback--note">
+              a familiar corner usually helps.
+            </p>
           </motion.div>
         ) : (
           <DiaryFragmentReveal
             key="jigsaw-finished"
             title="Everything fits again."
             body="The repaired picture left the final word."
-            clue="chawal"
+            clue="Chawal"
           >
           </DiaryFragmentReveal>
         )}

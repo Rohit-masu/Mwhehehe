@@ -1,44 +1,48 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+
+import oldSongTrack from "../../assets/audio/old-song.mp3";
+import audio1 from "../../assets/audio/agar-main-kahoon.mp3";
+import audio2 from "../../assets/audio/ladki-kyon.mp3";
+import audio3 from "../../assets/audio/tauba-tumhare.mp3";
+import audio4 from "../../assets/audio/wo-ladki-hai-kahan.mp3";
+import audio5 from "../../assets/audio/kya-mujhe-pyar.mp3";
+
+import recordDisc from "../../assets/images/disk.webp";
 
 import "./DiaryMiniGames.css";
 import DiaryFragmentReveal from "./DiaryFragmentReveal";
 
 const songs = [
   {
-    title: "Tujhe Dekha Toh Ye Jana Sanam",
-    artist: "Kumar Sanu, Alka Yagnik",
-    audio: "/audio/song1.mp3",
+    title: "Agar Mai kahoon",
+    audio: audio1,
     options: [
-      "Tujhe Dekha Toh Ye Jana Sanam",
+      "Agar Mai kahoon",
       "Dil Dheela Hoja Gaya",
       "Maine Tujhe Hardam Pukaara",
       "Jab Koi Baat Bigar Jaye",
     ],
   },
   {
-    title: "Kuch Kuch Hota Hai",
-    artist: "Udit Narayan, Alka Yagnik",
-    audio: "/audio/song2.mp3",
-    options: ["Kuch Kuch Hota Hai", "Bole Chudiyan", "Say Shava Shava", "Koi Mil Gaya"],
+    title: "Tauba Tumhare Yeh Ishaare",
+    audio: audio3,
+    options: ["Kuch Kuch Hota Hai", "Bole Chudiyan", "Tauba Tumhare Yeh Ishaare", "Koi Mil Gaya"],
   },
   {
-    title: "Suraj Hua Maddham",
-    artist: "Sonu Nigam, Alka Yagnik",
-    audio: "/audio/song3.mp3",
-    options: ["Suraj Hua Maddham", "You Are My Soniya", "Deewana Hai Dekho", "Kal Ho Naa Ho"],
+    title: "Ladki Kyon",
+    audio: audio2,
+    options: ["Suraj Hua Maddham", "You Are My Soniya", "Deewana Hai Dekho", "Ladki Kyon"],
   },
   {
-    title: "Bole Chudiyan",
-    artist: "Alka Yagnik, Sonu Nigam",
-    audio: "/audio/song4.mp3",
-    options: ["Bole Chudiyan", "Say Shava Shava", "Yeh Ladka Hai Allah", "Maahi Ve"],
+    title: "Woh Ladki Hai Kahan",
+    audio: audio4,
+    options: ["Bole Chudiyan", "Woh Ladki Hai Kahan", "Yeh Ladka Hai Allah", "Maahi Ve"],
   },
   {
-    title: "Kal Ho Naa Ho",
-    artist: "Sonu Nigam",
-    audio: "/audio/song5.mp3",
-    options: ["Kal Ho Naa Ho", "Pretty Woman", "Kuch To Hua Hai", "It's The Time To Disco"],
+    title: "Kya Mujhe Pyaar hai",
+    audio: audio5,
+    options: ["Chal Chhaiya Chhaiya", "Kya Mujhe Pyaar hai", "Kuch To Hua Hai", "It's The Time To Disco"],
   },
 ];
 
@@ -48,9 +52,7 @@ export default function BollywoodSongs({
   onComplete,
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [score, setScore] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [showResult, setShowResult] = useState(false);
   const [showFragmentReveal, setShowFragmentReveal] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [isCorrect, setIsCorrect] = useState(null);
@@ -65,10 +67,11 @@ export default function BollywoodSongs({
 
     onLockChange?.(true);
     return () => onLockChange?.(false);
-  }, [isActive, onLockChange, showFragmentReveal, showResult]);
+  }, [isActive, onLockChange, showFragmentReveal]);
 
   useEffect(() => {
-    return () => audioRef.current?.pause();
+    const audio = audioRef.current;
+    return () => audio?.pause();
   }, []);
 
   useEffect(() => {
@@ -91,14 +94,7 @@ export default function BollywoodSongs({
     if (audio.ended) audio.currentTime = 0;
     audio
       .play()
-      .then(() => {
-        setIsPlaying(true);
-        window.setTimeout(() => {
-          audio.pause();
-          audio.currentTime = 0;
-          setIsPlaying(false);
-        }, 10000);
-      })
+      .then(() => setIsPlaying(true))
       .catch(() => {
         setIsPlaying(false);
       });
@@ -112,7 +108,6 @@ export default function BollywoodSongs({
     setIsCorrect(correct);
     audioRef.current?.pause();
     setIsPlaying(false);
-    if (correct) setScore((previousScore) => previousScore + 1);
 
     window.setTimeout(() => {
       if (currentIndex < songs.length - 1) {
@@ -120,31 +115,22 @@ export default function BollywoodSongs({
         setSelectedOption(null);
         setIsCorrect(null);
       } else {
-        setShowResult(true);
+        setShowFragmentReveal(true);
       }
     }, 1500);
   };
 
-  const handleFinalResult = useCallback(() => {
-    if (score >= 4) {
-      setShowResult(false);
-      setShowFragmentReveal(true);
-      return;
-    }
-
-    setCurrentIndex(0);
-    setScore(0);
-    setShowResult(false);
-    setSelectedOption(null);
-    setIsCorrect(null);
-  }, [score]);
-
   const song = songs[currentIndex];
 
   return (
-    <section className="diary-mini-game bollywood-game">
+    <section
+      className="diary-mini-game bollywood-game"
+      onPointerDownCapture={(event) => event.stopPropagation()}
+      onMouseDownCapture={(event) => event.stopPropagation()}
+      onTouchStartCapture={(event) => event.stopPropagation()}
+    >
       <AnimatePresence mode="wait">
-        {!showResult && !showFragmentReveal && (
+        {!showFragmentReveal && (
           <motion.div
             key="song-game"
             className="diary-mini-game__screen"
@@ -154,13 +140,15 @@ export default function BollywoodSongs({
           >
             <header className="diary-mini-game__header">
               <span className="diary-mini-game__kicker">chapter ii · music memory</span>
-              <h2>Bollywood Music</h2>
-              <p>Listen to a familiar voice and name the song.</p>
+              <h2>Rewind to the 90s</h2>
+              <p>Listen closely. Some songs never really leave.</p>
             </header>
 
             <div className="diary-mini-game__progress">
               <span />
-              <small>song {currentIndex + 1} / {songs.length}</small>
+              <small>
+                song {String(currentIndex + 1).padStart(2, "0")} / {String(songs.length).padStart(2, "0")}
+              </small>
               <span />
             </div>
 
@@ -172,13 +160,16 @@ export default function BollywoodSongs({
                 disabled={selectedOption !== null}
                 aria-label={isPlaying ? "Pause song clip" : "Play song clip"}
               >
-                <span>♪</span>
+                <img src={recordDisc} alt="" />
               </button>
-              <p>
-                {song.artist}
-                <span>click the record to {isPlaying ? "pause" : "listen"}</span>
-              </p>
-              <audio ref={audioRef} src={song.audio} preload="metadata" onEnded={() => setIsPlaying(false)} />
+              <audio
+                ref={audioRef}
+                src={song.audio}
+                preload="metadata"
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
+                onEnded={() => setIsPlaying(false)}
+              />
             </div>
 
             <div className="diary-mini-game__options">
@@ -203,19 +194,8 @@ export default function BollywoodSongs({
             </div>
 
             <div className="diary-mini-game__feedback">
-              {selectedOption && <p>{isCorrect ? "correct track." : `It was ${song.title}.`}</p>}
+              {selectedOption && <p>{isCorrect ? "hmm... heard this before." : `It was ${song.title}.`}</p>}
             </div>
-          </motion.div>
-        )}
-
-        {showResult && !showFragmentReveal && (
-          <motion.div key="song-result" className="diary-mini-game__finished" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <span className="diary-mini-game__kicker">music round complete</span>
-            <h3>Music Master</h3>
-            <p>Correct guesses: {score}/{songs.length}</p>
-            <button type="button" className="diary-mini-game__continue" onClick={handleFinalResult}>
-              {score >= 4 ? "Reveal Fragment" : "Try Again"}
-            </button>
           </motion.div>
         )}
 

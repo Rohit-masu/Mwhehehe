@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
 
 export default function DiaryFragmentReveal({
-  kicker = "archive fragment recovered",
+  kicker = "a small fragment, recovered",
   title,
   body,
   clue,
-  note = "some memories are meant to be found slowly.",
+  note = "keep this word close.",
 }) {
   return (
     <motion.div

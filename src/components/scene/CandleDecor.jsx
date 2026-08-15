@@ -1,11 +1,21 @@
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import candle from "../../assets/images/candle.webp";
 import "./DeskScene.css";
 
 export default function CandleDecor() {
+  const [isTapped, setIsTapped] = useState(false);
+  const timeoutRef = useRef(null);
+
+  const handleTap = () => {
+    setIsTapped(true);
+    window.clearTimeout(timeoutRef.current);
+    timeoutRef.current = window.setTimeout(() => setIsTapped(false), 900);
+  };
+
   return (
     <motion.div
-      className="candle-decor"
+      className={`candle-decor ${isTapped ? "is-tapped" : ""}`}
       initial={{
         opacity: 0,
         x: -24,
@@ -20,6 +30,7 @@ export default function CandleDecor() {
         duration: 0.8,
         ease: "easeOut",
       }}
+      onClick={handleTap}
       aria-hidden="true"
     >
       <div className="candle-decor__ambient" />

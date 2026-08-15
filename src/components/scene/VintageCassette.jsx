@@ -66,6 +66,7 @@ export default function VintageCassette() {
         }}
       />
 
+      <div className="vintage-cassette__face">
       <div className="cassette-screw cassette-screw--tl" />
       <div className="cassette-screw cassette-screw--tr" />
       <div className="cassette-screw cassette-screw--bl" />
@@ -163,6 +164,7 @@ export default function VintageCassette() {
           audio unavailable
         </div>
       )}
+      </div>
     </motion.div>
   );
 }
