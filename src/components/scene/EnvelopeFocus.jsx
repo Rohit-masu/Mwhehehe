@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
-import letterImage from "../../assets/images/letter.png";
+import letterImage from "../../assets/images/letter.webp";
 
 import "./EnvelopeFocus.css";
 
