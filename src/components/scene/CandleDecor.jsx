@@ -6,6 +6,8 @@ import "./DeskScene.css";
 export default function CandleDecor() {
   const [isTapped, setIsTapped] = useState(false);
   const timeoutRef = useRef(null);
+  const animateFlame =
+    typeof window === "undefined" || window.innerWidth >= 768;
 
   const handleTap = () => {
     setIsTapped(true);
@@ -44,15 +46,15 @@ export default function CandleDecor() {
 
       <motion.div
         className="candle-decor__flame-glow"
-        animate={{
+        animate={animateFlame ? {
           opacity: [0.35, 0.62, 0.42, 0.58, 0.35],
           scale: [0.96, 1.05, 0.99, 1.03, 0.96],
-        }}
-        transition={{
+        } : undefined}
+        transition={animateFlame ? {
           duration: 2.4,
           repeat: Infinity,
           ease: "easeInOut",
-        }}
+        } : undefined}
       />
     </motion.div>
   );

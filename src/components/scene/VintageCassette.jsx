@@ -53,7 +53,7 @@ export default function VintageCassette() {
       <audio
         ref={audioRef}
         src={oldSongTrack}
-        preload="auto"
+        preload="none"
         loop
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}

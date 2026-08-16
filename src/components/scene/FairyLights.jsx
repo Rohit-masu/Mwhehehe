@@ -14,6 +14,8 @@ const bulbs = [
 export default function FairyLights() {
   const [isTapped, setIsTapped] = useState(false);
   const timeoutRef = useRef(null);
+  const animateBulbs =
+    typeof window === "undefined" || window.innerWidth >= 768;
 
   const handleTap = () => {
     setIsTapped(true);
@@ -98,17 +100,17 @@ export default function FairyLights() {
                 cy={bulbY}
                 r="5.2"
                 fill="url(#bulbFill)"
-                filter="url(#bulbGlow)"
-                animate={{
+                filter={animateBulbs ? "url(#bulbGlow)" : undefined}
+                animate={animateBulbs ? {
                   opacity: [0.72, 1, 0.8],
                   r: [5, 5.8, 5.1],
-                }}
-                transition={{
+                } : undefined}
+                transition={animateBulbs ? {
                   duration: 3 + (index % 2) * 0.8,
                   repeat: Infinity,
                   ease: "easeInOut",
                   delay: bulb.delay,
-                }}
+                } : undefined}
               />
 
               <motion.circle
@@ -116,16 +118,16 @@ export default function FairyLights() {
                 cy={bulbY}
                 r="16"
                 fill="rgba(255, 191, 75, 0.17)"
-                animate={{
+                animate={animateBulbs ? {
                   opacity: [0.16, 0.42, 0.18],
                   r: [15, 20, 16],
-                }}
-                transition={{
+                } : undefined}
+                transition={animateBulbs ? {
                   duration: 3.6 + (index % 2) * 0.8,
                   repeat: Infinity,
                   ease: "easeInOut",
                   delay: bulb.delay + 0.2,
-                }}
+                } : undefined}
               />
             </g>
           );

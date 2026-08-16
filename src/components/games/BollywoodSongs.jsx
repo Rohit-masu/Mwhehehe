@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-import oldSongTrack from "../../assets/audio/old-song.mp3";
 import audio1 from "../../assets/audio/agar-main-kahoon.mp3";
 import audio2 from "../../assets/audio/ladki-kyon.mp3";
 import audio3 from "../../assets/audio/tauba-tumhare.mp3";

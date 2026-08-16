@@ -1,4 +1,6 @@
 import {
+  lazy,
+  Suspense,
   useCallback,
   useEffect,
   useRef,
@@ -12,14 +14,62 @@ import Page from "./Page";
 import CoverContent from "./CoverContent";
 import InsideCoverPage from "./pages/InsideCoverPage";
 import WelcomePage from "./pages/WelcomePage";
-import MuhavaraDiaryGame from "../games/MuhavaraDiaryGame";
-import BollywoodSongs from "../games/BollywoodSongs";
-import CardMatch from "../games/CardMatch";
-import JigsawPuzzle from "../games/JigsawPuzzle";
 
 import "./DiaryBook.css";
 
 const MOBILE_BREAKPOINT = 768;
+const MOBILE_GAME_PAGE_INDEXES = {
+  muhavara: 2,
+  bollywood: 3,
+  cardMatch: 4,
+  jigsaw: 5,
+};
+const DESKTOP_GAME_PAGE_INDEXES = {
+  muhavara: 4,
+  bollywood: 6,
+  cardMatch: 8,
+  jigsaw: 10,
+};
+
+const MuhavaraDiaryGame = lazy(
+  () => import("../games/MuhavaraDiaryGame")
+);
+const BollywoodSongs = lazy(
+  () => import("../games/BollywoodSongs")
+);
+const CardMatch = lazy(() => import("../games/CardMatch"));
+const JigsawPuzzle = lazy(() => import("../games/JigsawPuzzle"));
+
+function GameLoadingPage() {
+  return (
+    <div
+      className="diary-game-loading"
+      role="status"
+      aria-live="polite"
+      aria-label="Loading the next memory"
+    >
+      <div className="diary-game-loading__mark" aria-hidden="true">
+        <svg
+          className="diary-game-loading__divider"
+          viewBox="0 0 148 24"
+          focusable="false"
+        >
+          <path d="M2 12h52c8 0 10-7 20-7s12 7 20 7h52" />
+          <path d="M2 12h52c8 0 10 7 20 7s12-7 20-7h52" />
+          <circle cx="74" cy="12" r="3" />
+        </svg>
+
+        <span className="cover-content__ornament diary-game-loading__ornament">
+          ❦
+        </span>
+
+        <p className="cover-content__subtitle diary-game-loading__subtitle">
+          a keepsake of memories
+        </p>
+      </div>
+    </div>
+  );
+}
 
 export default function DiaryBook({
   onOpenChange,
@@ -31,6 +81,7 @@ export default function DiaryBook({
   const [currentPage, setCurrentPage] = useState(0);
 
   const [isBookLocked, setIsBookLocked] = useState(false);
+  const [activatedGames, setActivatedGames] = useState(() => new Set());
 
   const [, setUnlockedClues] = useState({});
 
@@ -52,8 +103,8 @@ export default function DiaryBook({
     };
   }, []);
 
-  const bookWidth = isMobile ? 260 : 300;
-  const bookHeight = isMobile ? 400 : 450;
+  const bookWidth = isMobile ? 250 : 300;
+  const bookHeight = isMobile ? 385 : 450;
 
   const openBook = () => {
     bookRef.current?.pageFlip()?.flipNext();
@@ -134,18 +185,27 @@ export default function DiaryBook({
   };
 
   const gamePageIndexes = isMobile
-    ? {
-        muhavara: 2,
-        bollywood: 3,
-        cardMatch: 4,
-        jigsaw: 5,
-      }
-    : {
-        muhavara: 4,
-        bollywood: 6,
-        cardMatch: 8,
-        jigsaw: 10,
-      };
+    ? MOBILE_GAME_PAGE_INDEXES
+    : DESKTOP_GAME_PAGE_INDEXES;
+
+  useEffect(() => {
+    // Start loading only the next game while the reader is on the page before it.
+    const preloadDistance = isMobile ? 1 : 2;
+
+    setActivatedGames((previousGames) => {
+      const nextGames = new Set(previousGames);
+
+      Object.entries(gamePageIndexes).forEach(([game, pageIndex]) => {
+        if (currentPage >= pageIndex - preloadDistance) {
+          nextGames.add(game);
+        }
+      });
+
+      return nextGames.size === previousGames.size
+        ? previousGames
+        : nextGames;
+    });
+  }, [currentPage, gamePageIndexes, isMobile]);
 
   const pages = [
     /* =========================
@@ -189,49 +249,57 @@ export default function DiaryBook({
     ...createContentPage({
       key: "muhavara",
       number: 2,
-      content: (
-        <MuhavaraDiaryGame
-          isActive={isPhysicalPageVisible(gamePageIndexes.muhavara)}
-          onLockChange={setIsBookLocked}
-          onComplete={(clue) => saveClue("muhavara", clue)}
-        />
-      ),
+      content: activatedGames.has("muhavara") ? (
+        <Suspense fallback={<GameLoadingPage />}>
+          <MuhavaraDiaryGame
+            isActive={isPhysicalPageVisible(gamePageIndexes.muhavara)}
+            onLockChange={setIsBookLocked}
+            onComplete={(clue) => saveClue("muhavara", clue)}
+          />
+        </Suspense>
+      ) : null,
     }),
 
     ...createContentPage({
       key: "bollywood",
       number: 3,
-      content: (
-        <BollywoodSongs
-          isActive={isPhysicalPageVisible(gamePageIndexes.bollywood)}
-          onLockChange={setIsBookLocked}
-          onComplete={(clue) => saveClue("bollywood", clue)}
-        />
-      ),
+      content: activatedGames.has("bollywood") ? (
+        <Suspense fallback={<GameLoadingPage />}>
+          <BollywoodSongs
+            isActive={isPhysicalPageVisible(gamePageIndexes.bollywood)}
+            onLockChange={setIsBookLocked}
+            onComplete={(clue) => saveClue("bollywood", clue)}
+          />
+        </Suspense>
+      ) : null,
     }),
 
     ...createContentPage({
       key: "tmkoc",
       number: 4,
-      content: (
-        <CardMatch
-          isActive={isPhysicalPageVisible(gamePageIndexes.cardMatch)}
-          onLockChange={setIsBookLocked}
-          onComplete={(clue) => saveClue("cardMatch", clue)}
-        />
-      ),
+      content: activatedGames.has("cardMatch") ? (
+        <Suspense fallback={<GameLoadingPage />}>
+          <CardMatch
+            isActive={isPhysicalPageVisible(gamePageIndexes.cardMatch)}
+            onLockChange={setIsBookLocked}
+            onComplete={(clue) => saveClue("cardMatch", clue)}
+          />
+        </Suspense>
+      ) : null,
     }),
 
     ...createContentPage({
       key: "nikki",
       number: 5,
-      content: (
-        <JigsawPuzzle
-          isActive={isPhysicalPageVisible(gamePageIndexes.jigsaw)}
-          onLockChange={setIsBookLocked}
-          onComplete={(clue) => saveClue("jigsaw", clue)}
-        />
-      ),
+      content: activatedGames.has("jigsaw") ? (
+        <Suspense fallback={<GameLoadingPage />}>
+          <JigsawPuzzle
+            isActive={isPhysicalPageVisible(gamePageIndexes.jigsaw)}
+            onLockChange={setIsBookLocked}
+            onComplete={(clue) => saveClue("jigsaw", clue)}
+          />
+        </Suspense>
+      ) : null,
     }),
 
     /* =========================

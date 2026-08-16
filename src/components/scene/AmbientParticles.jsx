@@ -29,6 +29,11 @@ const glowParticles = [
 ];
 
 export default function AmbientParticles() {
+  // These ambient loops are purely decorative and expensive on phone GPUs.
+  if (typeof window !== "undefined" && window.innerWidth < 768) {
+    return null;
+  }
+
   return (
     <div className="ambient-particles" aria-hidden="true">
       {particles.map((particle, index) => (
