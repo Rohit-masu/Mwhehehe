@@ -652,7 +652,7 @@
 
 .envelope-focus__letter--expanded .envelope-focus__letter-paper {
   cursor: grab;
-  touch-action: none;
+  touch-action: pinch-zoom;
   box-shadow: 0 26px 44px rgba(0, 0, 0, 0.48);
 }
 
