@@ -435,6 +435,7 @@
 
   width: clamp(230px, 18vw, 285px);
   aspect-ratio: 1.5 / 1;
+  box-sizing: border-box;
 
   z-index: 6;
 
@@ -465,6 +466,25 @@
   overflow: hidden;
 
   pointer-events: auto;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: filter 160ms ease, box-shadow 160ms ease;
+}
+
+.vintage-cassette:hover {
+  filter: brightness(1.04);
+}
+
+.vintage-cassette:focus-visible {
+  outline: 3px solid rgba(223, 205, 164, 0.9);
+  outline-offset: 4px;
+}
+
+.vintage-cassette:active {
+  filter: brightness(0.94);
 }
 
 .vintage-cassette::after {
@@ -721,7 +741,7 @@
 
   padding: 6px 0 0;
 
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 /* decorative vents — real deck jaisa detail */
@@ -741,51 +761,13 @@
   border-radius: 1px;
 }
 
-.cassette-btn {
-  position: relative;
-
-  width: 34px;
-  height: 22px;
-
-  border: none;
-  border-radius: 3px;
-
-  appearance: none;
-  -webkit-appearance: none;
-
-  background: linear-gradient(to bottom, #c9b184, #93795a);
-
-  box-shadow:
-    0 3px 0 #4a3b2c,
-    0 4px 4px rgba(0, 0, 0, 0.4),
-    inset 0 1px 1px rgba(255, 255, 255, 0.4),
-    inset 0 -2px 3px rgba(48, 36, 22, 0.4);
-
-  cursor: pointer;
-
+.cassette-state-icon {
+  width: 20px;
+  height: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  transition: transform 100ms ease, box-shadow 100ms ease;
-}
-
-.cassette-btn:hover {
-  filter: brightness(1.06);
-}
-
-.cassette-btn:active,
-.cassette-btn.is-active {
-  transform: translateY(3px);
-
-  box-shadow:
-    0 0 0 #4a3b2c,
-    inset 0 2px 3px rgba(0, 0, 0, 0.45),
-    inset 0 -1px 1px rgba(255, 255, 255, 0.15);
-}
-
-.cassette-btn.is-active {
-  background: linear-gradient(to bottom, #b39d72, #7d6549);
+  opacity: 0.76;
 }
 
 /* PLAY icon — solid triangle */
@@ -886,19 +868,6 @@
   .cassette-reel {
     width: 25px;
     height: 25px;
-  }
-
-  .cassette-control-panel {
-    padding: 5px 6px;
-  }
-
-  .cassette-play-button {
-    min-width: 53px;
-    height: 21px;
-
-    padding: 0 6px;
-
-    font-size: 8px;
   }
 
   .cassette-indicator {
@@ -1890,10 +1859,10 @@
 
   .vintage-cassette {
     right: -4px;
-    top: 72px;
+    top: 53px;
     width: 150px;
     padding: 7px;
-    z-index: 4;
+    z-index: 7;
     opacity: 0.86;
     transform: rotate(4deg);
   }
@@ -1944,9 +1913,20 @@
     padding-top: 3px;
   }
 
-  .cassette-btn {
-    width: 24px;
-    height: 16px;
+  .cassette-state-icon {
+    width: 16px;
+    height: 11px;
+  }
+
+  .cassette-state-icon .icon-play {
+    border-top-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 6px;
+  }
+
+  .cassette-state-icon .icon-pause span {
+    width: 2px;
+    height: 8px;
   }
 
   .cassette-indicator {
@@ -1970,7 +1950,7 @@
 
   .cake-decor {
     left: 110px;
-    bottom: 68px;
+    bottom: 35px;
     width: 170px;
     z-index: 5;
     opacity: 0.86;
@@ -2040,8 +2020,12 @@
 
   .vintage-cassette {
     right: -4px;
-    top: 72px;
-    width: 150px;
+    top: 53px;
+    width: 138px;
+  }
+
+  .cassette-deck {
+    display: none;
   }
 
   .sunflower-cluster {
@@ -2059,7 +2043,7 @@
 
   .cake-decor {
     left: 110px;
-    bottom: 68px;
+    bottom: 35px;
     width: 170px;
   }
 

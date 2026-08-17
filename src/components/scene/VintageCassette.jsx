@@ -32,9 +32,22 @@ export default function VintageCassette() {
     }
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+
+    event.preventDefault();
+    toggleAudio();
+  };
+
   return (
     <motion.div
-      className="vintage-cassette"
+      className={`vintage-cassette ${isPlaying ? "is-playing" : ""}`}
+      role="button"
+      tabIndex={0}
+      aria-label={isPlaying ? "Pause tape" : "Play tape"}
+      aria-pressed={isPlaying}
+      onClick={toggleAudio}
+      onKeyDown={handleKeyDown}
       initial={{
         opacity: 0,
         x: 25,
@@ -53,7 +66,7 @@ export default function VintageCassette() {
       <audio
         ref={audioRef}
         src={oldSongTrack}
-        preload="none"
+        preload="metadata"
         loop
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
@@ -133,14 +146,7 @@ export default function VintageCassette() {
       </div>
 
       <div className="cassette-deck">
-        <button
-          type="button"
-          className={`cassette-btn cassette-btn--play ${
-            isPlaying ? "is-active" : ""
-          }`}
-          onClick={toggleAudio}
-          aria-label={isPlaying ? "Pause tape" : "Play tape"}
-        >
+        <span className="cassette-state-icon" aria-hidden="true">
           {isPlaying ? (
             <span className="icon-pause">
               <span />
@@ -149,7 +155,7 @@ export default function VintageCassette() {
           ) : (
             <span className="icon-play" />
           )}
-        </button>
+        </span>
 
         <div className="cassette-deck__vents">
           <span />

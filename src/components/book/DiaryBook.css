@@ -956,6 +956,21 @@
   display: none;
 }
 
+/* Phone-height tiers keep the fixed-size flipbook visually responsive. */
+@media (max-width: 767px) and (max-height: 760px) {
+  .book-stage__tilt,
+  .book-stage--open .book-stage__tilt {
+    transform: rotate(-1.2deg) scale(0.93);
+  }
+}
+
+@media (max-width: 767px) and (min-height: 761px) and (max-height: 880px) {
+  .book-stage__tilt,
+  .book-stage--open .book-stage__tilt {
+    transform: rotate(-1.2deg) scale(0.97);
+  }
+}
+
 /* Agar kahi purana brown/inside-cover-jaisa override hai, use hata do:
    .diary-page--blank { background: ... brown gradient ... }  ← DELETE this if it exists
 */
