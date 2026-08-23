@@ -26,6 +26,23 @@ export default function EnvelopeFocus({ onClose }) {
   const flapTimerRef = useRef(null);
   const letterTimerRef = useRef(null);
   const extractionTimerRef = useRef(null);
+  const letterPaperRef = useRef(null);
+  const pinchRef = useRef({
+    startDistance: 0,
+    startScale: 1,
+  });
+  const [letterScale, setLetterScale] = useState(1);
+
+  const getTouchDistance = (touches) => {
+    const [first, second] = touches;
+
+    return Math.hypot(
+      second.clientX - first.clientX,
+      second.clientY - first.clientY
+    );
+  };
+
+  const isLetterExpanded = letterStage === "expanded";
 
   const clearTimers = useCallback(() => {
     if (sealTimerRef.current) {
@@ -48,6 +65,7 @@ export default function EnvelopeFocus({ onClose }) {
   const handleBack = useCallback(() => {
     if (letterStage === "expanded" || letterStage === "extracting") {
       clearTimers();
+      setLetterScale(1);
       setLetterStage("peeking");
       return;
     }
@@ -67,6 +85,48 @@ export default function EnvelopeFocus({ onClose }) {
   }, [handleBack]);
 
   useEffect(() => clearTimers, [clearTimers]);
+
+  useEffect(() => {
+    const letterPaper = letterPaperRef.current;
+
+    if (!isLetterExpanded || !letterPaper) return undefined;
+
+    const handleTouchStart = (event) => {
+      if (event.touches.length !== 2) return;
+
+      event.preventDefault();
+
+      pinchRef.current = {
+        startDistance: getTouchDistance(event.touches),
+        startScale: letterScale,
+      };
+    };
+
+    const handleTouchMove = (event) => {
+      if (event.touches.length !== 2) return;
+
+      event.preventDefault();
+
+      const currentDistance = getTouchDistance(event.touches);
+      const zoomRatio = currentDistance / pinchRef.current.startDistance;
+
+      setLetterScale(
+        Math.min(3, Math.max(1, pinchRef.current.startScale * zoomRatio))
+      );
+    };
+
+    letterPaper.addEventListener("touchstart", handleTouchStart, {
+      passive: false,
+    });
+    letterPaper.addEventListener("touchmove", handleTouchMove, {
+      passive: false,
+    });
+
+    return () => {
+      letterPaper.removeEventListener("touchstart", handleTouchStart);
+      letterPaper.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, [isLetterExpanded, letterScale]);
 
   useEffect(() => {
     if (sealState === "prompt") {
@@ -130,11 +190,11 @@ export default function EnvelopeFocus({ onClose }) {
 
     setLetterStage("extracting");
     extractionTimerRef.current = window.setTimeout(() => {
+      setLetterScale(1);
       setLetterStage("expanded");
     }, EXTRACTION_DURATION);
   };
 
-  const isLetterExpanded = letterStage === "expanded";
   const isPhraseVisible = sealState === "prompt";
   const isFlapOpen =
     sealState === "flap-opening" || sealState === "flap-open";
@@ -181,15 +241,18 @@ export default function EnvelopeFocus({ onClose }) {
           {letterStage !== "hidden" && (
             <div className={`envelope-focus__letter envelope-focus__letter--${letterStage}`}>
               <motion.button
+                ref={letterPaperRef}
                 type="button"
                 className="envelope-focus__letter-paper"
                 onClick={handleLetterClick}
                 drag={isLetterExpanded}
                 dragMomentum={false}
                 dragElastic={0.12}
-                whileDrag={{ scale: 1.015, cursor: "grabbing" }}
+                whileDrag={{ cursor: "grabbing" }}
+                animate={{ scale: letterScale }}
+                transition={{ type: "spring", stiffness: 280, damping: 28 }}
                 aria-label={
-                  isLetterExpanded ? "Letter sheet" : "Pull the visible letter sheet out"
+                  isLetterExpanded ? "Pinch to zoom letter" : "Pull the visible letter sheet out"
                 }
               >
                 <img src={letterImage} alt="" draggable="false" />
